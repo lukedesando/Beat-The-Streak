@@ -1,0 +1,11 @@
+.vscode/*
+__pycache__/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+.vscode/launch.json
