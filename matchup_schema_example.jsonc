@@ -1,0 +1,133 @@
+{
+    "pitcher1": {
+        "opponent": "team name",
+        "date": "xxxx-xx-xx",
+        "pitcher_stats": {
+            "stat1": "",
+            "stat2": "",
+            "stat3": ""
+        },
+        "hitters": [
+            { 
+                "name": "hitter1",
+                "hitter_stats": {
+                    "stat1": "1",
+                    "stat2": "2",
+                    "stat3": "3"
+                },
+                "matchup_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                },
+                "heatmap": {
+                    "zone1": 0,
+                    "zone2": 0,
+                    "zone3": 0,
+                    "zone4": 0,
+                    "zone5": 0,
+                    "zone6": 0,
+                    "zone7": 0,
+                    "zone8": 0,
+                    "zone9": 0,
+                    "zone11": 0,
+                    "zone12": 0,
+                    "zone13": 0,
+                    "zone14": 0
+                }
+            },
+            { 
+                "name": "hitter2",
+                "hitter_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                },
+                "matchup_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                }
+                
+            }
+        ]
+    },
+    "pitcher2": {
+        "opponent": "team name",
+        "date": "xxxx-xx-xx",
+        "pitcher_stats": {
+            "stat1": "",
+            "stat2": "",
+            "stat3": ""
+        },
+        "hitters": [
+            { 
+                "name": "hitter1",
+                "hitter_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                },
+                "matchup_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                }
+                
+            },
+            { 
+                "name": "hitter1",
+                "hitter_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                },
+                "matchup_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                }
+                
+            }
+        ]
+    },
+    "pitcher3": {
+        "opponent": "team name",
+        "date": "xxxx-xx-xx",
+        "pitcher_stats": {
+            "stat1": "",
+            "stat2": "",
+            "stat3": ""
+        },
+        "hitters": [
+            { 
+                "name": "hitter1",
+                "hitter_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                },
+                "matchup_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                }
+                
+            },
+            { 
+                "name": "hitter1",
+                "hitter_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                },
+                "matchup_stats": {
+                    "stat1": "",
+                    "stat2": "",
+                    "stat3": ""
+                }
+                
+            }
+        ]
+    }
+}
