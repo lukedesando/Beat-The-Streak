@@ -22,11 +22,14 @@ class Players:
 	def __init__(self):
 		self.player_keys = pd.read_excel('PlayerKeys.xlsx')
 		self.starting_pitchers = self.get_starting_pitchers()
-    
+		todays_starters = self.todays_starting_pichers()
+
+	def todays_starting_pichers(self):
+		self.starters = espn.ProbableStartersScraper(Today, Today).scrape()
+		print(self.starters)
+	
 	def get_starting_pitchers(self):
 		starters = espn.ProbableStartersScraper(Today, Tomorrow).scrape()
-
-	#def Append_Excel(self):
 		missing_pitcher_keys = []
 		for ind, row in starters.iterrows():
 			if row['espn_id'] not in self.player_keys.espn_id.values:
@@ -63,20 +66,26 @@ class Players:
 			print(f'Problem searching for {player_name}\nerror: {e}')
 			return None
 
-	def playerid_reverse_lookup_Fangraphs(player_name):
-		FGid = Find_Fangraph_ID(player_name) #Why won't this read in the same file?
-		Fangraph_Keys_List = [FGid]
-		#print(FGid)
-		return playerid_reverse_lookup(Fangraph_Keys_List,key_type='fangraphs')
+def playerid_reverse_lookup_Fangraphs_Sheet(player_name):
+	FGid = Find_Fangraph_ID(player_name) #Why won't this read in the same file? I had to move it to background functinons
+	Fangraph_Keys_List = [FGid]
+	#print(FGid)
+	return playerid_reverse_lookup(Fangraph_Keys_List,key_type='fangraphs')
 
-  
-#DailySetup = Players()
-FanGraphs_ID = Players.playerid_reverse_lookup_Fangraphs("Juan Soto")
-#print(FanGraphs_ID)
-player_keys = pd.read_excel('PlayerKeys.xlsx')
-player_keys=player_keys.append(FanGraphs_ID,ignore_index=True)
+	#def find_player_in_key(player_name):
+
+	
+# def compare_and_append(player_name):
+# 	FanGraphs_ID = Players.playerid_reverse_lookup_Fangraphs(player_name)
+# 	#print(FanGraphs_ID)
+# 	player_keys = pd.read_excel('PlayerKeys.xlsx')
+# 	player_keys=player_keys.append(FanGraphs_ID,ignore_index=True)
+# 		#if
+# 			#player_keys.to_excel("PlayerKeys.xlsx",index=False)
+
+
+
 #print(player_keys)
-#player_keys.to_excel("PlayerKeys.xlsx",index=False)
 #It works, but it will duplicate. Need an apend-excel function to make it dynamic
 
 #Feel free to clean it up and make it work better
