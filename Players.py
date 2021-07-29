@@ -38,8 +38,6 @@ class Players:
                 
 	def search_keys(self, player_name):
            
-		#num_names(player_name)
-
 		try:
 			if num_names(player_name) == 3:
 				pname0,pname1,pname2 = player_name.split(" ")
@@ -55,7 +53,4 @@ class Players:
 			print(f'Problem searching for {player_name}\nerror: {e}')
 			return None
   
-test = Players()
-#print(test.keys)
-
-test.get_starting_pitchers()
+DailySetup = Players()
