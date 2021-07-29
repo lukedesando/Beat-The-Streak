@@ -9,3 +9,4 @@ __pycache__/*
 # Local History for Visual Studio Code
 .history/
 .vscode/launch.json
+.google-cookie
