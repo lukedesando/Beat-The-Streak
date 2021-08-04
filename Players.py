@@ -16,7 +16,7 @@ import sys
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 FanGraphsCSV = csv.reader(open('FanGraphs_Players_IDs_2021.csv', "r"), delimiter=",")
-Name_Column = Fangraphs_ID_Sheet['Name']
+Name_Column = FanGraphsCSV['Name']
 #I have no idea why this wouldn't work in the init file when I put it there
 
 class Players:
