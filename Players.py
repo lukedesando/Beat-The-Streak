@@ -30,20 +30,20 @@ class Players:
 		for index, row in self.starting_pitchers.iterrows():
 			matchups[row['Name']] = {
 				'opponent': row['opponent'],
-				'date': row['Date'],
+				'date': row['Date'], #FIXME chomp off time from date
 				'pitcher_stats': self.get_pitcher_stats(row['espn_id']),
 				'hitters': {}
 			}
 		return matchups
 	def todays_starting_pichers(self):
 		self.starters = espn.ProbableStartersScraper(Today, Today).scrape()
-		print(self.starters)
+		# print(self.starters)
 	
 	def get_pitcher_stats(self, espn_id):
 		try:
 			pitcher_key = self.player_keys[self.player_keys['espn_id']==espn_id].reset_index().at[0, 'key_bbref']
 		except KeyError as e:
-			# Need to fix the case where a player is missing in player_keys
+			#FIXME Need to fix the case where a player is missing in player_keys
 			print(f'Unable to get bbref key for the corresponding espn_id {espn_id}')
 			return {}
 		
@@ -51,7 +51,10 @@ class Players:
 		soup = requests.get(bbref_url)
 		page = bs4.BeautifulSoup(soup.text, 'html.parser')
 		try:
-			values = page.find('tr', id=f'pitching_standard.{datetime.today().year}').find_all('td')
+			#FIXME does not get pitching table when id doesn't include year; see https://www.baseball-reference.com/players/o/ohtansh01.shtml
+			
+			row = page.find('tr', id=f'pitching_standard.{datetime.today().year}')
+			values = row.find_all('td') 
 		except AttributeError as e:
 			print(f'Could not find {datetime.today().year} Standard Pitching stats at {bbref_url}')
 			return {}
@@ -69,7 +72,7 @@ class Players:
 					id_list['espn_id'] = row['espn_id']
 					# id_list = pd.DataFrame([id_list])
 					missing_pitcher_keys.append(id_list)
-		print(missing_pitcher_keys)
+		# print(missing_pitcher_keys)
 		self.player_keys = self.player_keys.append(missing_pitcher_keys, ignore_index=True)
 		#need to drop index from adding
 		self.player_keys.to_excel("PlayerKeys.xlsx",index=False)
@@ -95,6 +98,20 @@ class Players:
 		except ValueError as e:
 			print(f'Problem searching for {player_name}\nerror: {e}')
 			return None
+	
+	def matchups_to_csv(self, stats, filename='pitcher_stats'):
+		out = []
+		for key, value in self.matchups.items():
+			item = {}
+			item['name'] = key
+			item['opponent'] = value['opponent']
+			item['date'] = value['date']
+			for p_key, p_stat in value['pitcher_stats'].items():
+				if (p_key in stats):
+					item[p_key] = p_stat
+			out.append(item)
+
+		pd.DataFrame(out).to_excel(f'{filename}.xlsx')
 
 def playerid_reverse_lookup_Fangraphs_Sheet(player_name):
 	FGid = Find_Fangraph_ID(player_name) #Why won't this read in the same file? I had to move it to background functinons
@@ -103,22 +120,3 @@ def playerid_reverse_lookup_Fangraphs_Sheet(player_name):
 	return playerid_reverse_lookup(Fangraph_Keys_List,key_type='fangraphs')
 
 	#def find_player_in_key(player_name):
-
-
-test = Players()
-p = pitching_stats(2021)
-print()
-# def compare_and_append(player_name):
-# 	FanGraphs_ID = Players.playerid_reverse_lookup_Fangraphs(player_name)
-# 	#print(FanGraphs_ID)
-# 	player_keys = pd.read_excel('PlayerKeys.xlsx')
-# 	player_keys=player_keys.append(FanGraphs_ID,ignore_index=True)
-# 		#if
-# 			#player_keys.to_excel("PlayerKeys.xlsx",index=False)
-
-
-
-#print(player_keys)
-#It works, but it will duplicate. Need an apend-excel function to make it dynamic
-
-#Feel free to clean it up and make it work better
