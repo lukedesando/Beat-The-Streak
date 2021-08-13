@@ -10,3 +10,4 @@ __pycache__/*
 .history/
 .vscode/launch.json
 .google-cookie
+*.cpython-38.pyc
