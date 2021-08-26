@@ -1,7 +1,7 @@
 from typing import Optional
 from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
-
+from BackgroundFunctions import Get_MLB_ID, Get_BBRef_ID
 from baseball_scraper import espn, playerid_lookup
 from datetime import datetime, timedelta
 
@@ -9,19 +9,12 @@ import statsapi
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 
-def Get_Player_ID(PlayerName):
-    "Because I'm Lazy"
-    PlayerJson = lookup_player(PlayerName)
-    PlayerID = PlayerJson[0]['id']
-    return PlayerID
-
 def GetPitcherPrintout(PitcherName,PitcherBasics=['current_team','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn']):
-    '''
-Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
-\nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default
-    '''
-    PitcherID = Get_Player_ID(PitcherName)
+    '''Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
+    \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
+    
+    PitcherID = Get_MLB_ID(PitcherName)
     PitcherStatsDict = player_stat_data(PitcherID,group='pitching')
     print(PitcherName)
     
@@ -38,11 +31,10 @@ Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by
 
 def GetBatterPrintout(BatterName,BatterBasics=['current_team','bat_side'],
 BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
-    '''
-Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
-\nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default
-    '''
-    BatterID = Get_Player_ID(BatterName)
+    '''Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
+    \nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default'''
+    
+    BatterID = Get_MLB_ID(BatterName)
     BatterStatsDict = player_stat_data(BatterID,group='batting')
     print(BatterName)
     
@@ -56,7 +48,8 @@ Batter Basics include First Name, Last Name, Current Team, and Batting Side by d
     print()
 
 def StartingPitchersPrintout(StartDate=Today,EndDate=Today):
-    "Remember to close those parentheses or it won't work"
+    '''Today is selected by default as the start and end dates
+    \n Encounters errors if used with past dates'''
     starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
     StartingPitchersdf = starters['Name']
     for pitcher in StartingPitchersdf:
@@ -72,9 +65,10 @@ def StartingPitchersPrintout(StartDate=Today,EndDate=Today):
 
 
 
-print(playerid_lookup("Soto","Juan"))
-    #FIXME This will be how we get the BBref keys
+#print(playerid_lookup("Soto","Juan"))
+    #NOTE This will be how we get the BBref keys
     # just cross reference them with MLB_played_last (or MLB key)
+
 
 
 # pitcherID = Get_Player_ID("Patrick Corbin")
