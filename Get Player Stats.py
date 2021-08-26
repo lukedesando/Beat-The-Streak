@@ -4,6 +4,8 @@ import pandas as pd
 
 from baseball_scraper import espn, playerid_lookup
 from datetime import datetime, timedelta
+
+import statsapi
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 
@@ -53,12 +55,26 @@ Batter Basics include First Name, Last Name, Current Team, and Batting Side by d
         print (f"{stat}: {BatterStatsDict['stats'][0]['stats'][stat]}")
     print()
 
-starters = espn.ProbableStartersScraper(Today, Today).scrape()
-StartingPitchersdf = starters['Name']
-#print(StartingPitchersdf)
-for pitcher in StartingPitchersdf:
-    GetPitcherPrintout(pitcher)
-GetBatterPrintout("Juan Soto")
+def StartingPitchersPrintout(StartDate=Today,EndDate=Today):
+    "Remember to close those parentheses or it won't work"
+    starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
+    StartingPitchersdf = starters['Name']
+    for pitcher in StartingPitchersdf:
+        GetPitcherPrintout(pitcher)
+
+# starters = espn.ProbableStartersScraper(Today, Today).scrape()
+# StartingPitchersdf = starters['Name']
+# #print(StartingPitchersdf)
+# for pitcher in StartingPitchersdf:
+#     GetPitcherPrintout(pitcher)
+#StartingPitchersPrintout()
+#GetBatterPrintout("Juan Soto")
+
+
+
+print(playerid_lookup("Soto","Juan"))
+    #FIXME This will be how we get the BBref keys
+    # just cross reference them with MLB_played_last (or MLB key)
 
 
 # pitcherID = Get_Player_ID("Patrick Corbin")
