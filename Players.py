@@ -23,7 +23,7 @@ class Players:
 		self.player_keys = pd.read_excel('PlayerKeys.xlsx')
 		self.starting_pitchers = self.get_starting_pitchers()
 		self.matchups = self.get_todays_matchups()
-		todays_starters = self.todays_starting_pichers()
+		# todays_starters = self.todays_starting_pichers()
 
 	def get_todays_matchups(self):
 		matchups = {}
@@ -38,7 +38,7 @@ class Players:
 	def todays_starting_pichers(self):
 		self.starters = espn.ProbableStartersScraper(Today, Today).scrape()
 		# print(self.starters)
-	
+
 	def get_pitcher_stats(self, espn_id):
 		try:
 			pitcher_key = self.player_keys[self.player_keys['espn_id']==espn_id].reset_index().at[0, 'key_bbref']
@@ -57,6 +57,8 @@ class Players:
 			values = row.find_all('td') 
 		except AttributeError as e:
 			print(f'Could not find {datetime.today().year} Standard Pitching stats at {bbref_url}')
+			with open("output1.html", "w") as file:
+				file.write(str(page))
 			return {}
 		
 		return {value['data-stat']: value.text for value in values}

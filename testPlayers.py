@@ -4,7 +4,8 @@ import json
 
 test = Players()
 
-test.matchups_to_csv(['W', 'L', 'earned_run_avg', 'whip', 'SO', 'opponent'])
+# test.matchups_to_csv(['W', 'L', 'earned_run_avg', 'whip', 'SO', 'opponent'])
+print(test.get_pitcher_stats(39832))
 
 
 
