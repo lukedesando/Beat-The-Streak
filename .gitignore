@@ -11,3 +11,6 @@ __pycache__/*
 .vscode/launch.json
 .google-cookie
 *.cpython-38.pyc
+
+# CSV Files I don't want Uploaded
+*.csv
