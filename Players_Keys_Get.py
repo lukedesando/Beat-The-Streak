@@ -33,6 +33,6 @@ for Fangraphs_key in Fangraph_ID_To_Update_Column:
 	index += 1
 	if Fangraphs_key == -1:
 		player_name = Name_Column
-		#print (Fangraphs_key)
+		print (Name_Column)
 		#Fangraphs_key = Find_Fangraph_ID(player_name)
 		#player_keys.to_excel

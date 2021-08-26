@@ -16,6 +16,7 @@ import sys
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 FanGraphsCSV = csv.reader(open('FanGraphs_Players_IDs_2021.csv', "r"), delimiter=",")
+Name_Column = FanGraphsCSV['Name']
 #I have no idea why this wouldn't work in the init file when I put it there
 
 class Players:
@@ -122,3 +123,28 @@ def playerid_reverse_lookup_Fangraphs_Sheet(player_name):
 	return playerid_reverse_lookup(Fangraph_Keys_List,key_type='fangraphs')
 
 	#def find_player_in_key(player_name):
+
+def Update_Key_Excel():
+	for player_name in Name_Column:
+		FanGraphID = Find_Fangraph_ID(player_name)
+		row_check = player_keys.loc[player_keys.isin([FanGraphID]).any(axis=1)] #needs to only search key_fangraphs column
+		if row_check.empty:
+			new_row = Players.playerid_reverse_lookup_Fangraphs_Sheet(player_name)
+			player_keys=player_keys.append(new_row,ignore_index=True)
+			player_keys.to_excel("PlayerKeys.xlsx",index=False)
+
+	
+# def compare_and_append(player_name):
+# 	FanGraphs_ID = Players.playerid_reverse_lookup_Fangraphs(player_name)
+# 	#print(FanGraphs_ID)
+# 	player_keys = pd.read_excel('PlayerKeys.xlsx')
+# 	player_keys=player_keys.append(FanGraphs_ID,ignore_index=True)
+# 		#if
+# 			#player_keys.to_excel("PlayerKeys.xlsx",index=False)
+
+
+
+#print(player_keys)
+#It works, but it will duplicate. Need an apend-excel function to make it dynamic
+
+#Feel free to clean it up and make it work better
