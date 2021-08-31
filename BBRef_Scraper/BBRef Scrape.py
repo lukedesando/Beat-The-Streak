@@ -1,5 +1,5 @@
 ## imports
-from BackgroundFunctions import Get_BBRef_ID
+from BackgroundFunctions import Get_BBRef_ID, Check_batting_or_pitching
 import pandas as pd
 from functools import partial
 from datetime import date
@@ -15,18 +15,9 @@ year = 2021
 #     else:
 #         return "b", "bat"
 
-#NOTE: Shohei Ohtani won't work; need an exception for him
-def Check_batting_or_pitching(PlayerID):
-    try:
-        SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(PlayerID,year)
-        pd.read_html(SplitsSeasonTotalsPitchersURL)
-        return "pitching","pitch","p"
-    except ImportError:
-        return "batting","bat","b"
-
 #XXX: I want a way to add more urls to both sides more easily. They will be out of order. Is there a way?
-def PrintAllSplits(PlayerID,batting_or_pitching="batting"):
+def PrintAllSplits(PlayerID,batting_or_pitching="batting",dfList=""):
+    "Defaults to batting"
     print(PlayerID,"\n")
     if batting_or_pitching == "pitching":
         dfList = Splits,SplitsPitcher,SplitsPlatoon, SplitsPlatoonPitcher, SplitsGameConditions, SplitsGameConditionsPitchers, SplitsMonths

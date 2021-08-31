@@ -2,6 +2,11 @@ import csv
 from numpy import True_
 from statsapi import player_stats,player_stat_data,lookup_player
 from baseball_scraper import playerid_lookup
+import pandas as pd
+from datetime import date
+
+CurrentYear = date.today().year
+
 
 def num_names(PlayerName):
     count=1
@@ -58,8 +63,8 @@ def Get_BBRef_ID(PlayerName):
 
 #print(Get_BBRef_ID("Chi Chi Gonzalez"))
 
-#NOTE Don't know why self harmed the fuction
 #NOTE Relies on external database; will need to be updated occasionally
+#FIXME depreciated
 def Find_Fangraph_ID(player_name):
     #loop through the csv list
     FanGraphsCSV = csv.reader(open('FanGraphs_Players_IDs_2021.csv', "r"), delimiter=",")
@@ -69,3 +74,14 @@ def Find_Fangraph_ID(player_name):
             FGid = row[2]
             #print(FGid)
             return int(FGid)
+
+#FIXME: Need an exception for Shohei Ohtani
+def Check_batting_or_pitching(PlayerID,year=CurrentYear):
+    "Widget exists only for pitchers. If it exists, player is pitcher. If not, player is hitter"
+    try:
+        SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(PlayerID,year)
+        pd.read_html(SplitsSeasonTotalsPitchersURL)
+        return "pitching","pitch","p"
+    except ImportError:
+        return "batting","bat","b"
