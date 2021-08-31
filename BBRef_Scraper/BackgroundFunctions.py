@@ -22,7 +22,6 @@ def Period_Check(PlayerName):
                 return NewPlayerName
     return PlayerName
 
-
 def Player_Dataframe_Fetch(PlayerName):
     PlayerName = Period_Check(PlayerName)
     try:

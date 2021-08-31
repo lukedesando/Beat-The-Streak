@@ -158,8 +158,6 @@ if batting_or_pitching == 'batting':
     # Stats are based on the three years before and after (when available), and the season for when the split is computed.
     # A split in 1994 would consider years 1991-1997 when classifying a pitcher.
 
+
 # GameLogs.to_csv(PlayerName + " Game Logs.csv",index=False)
-
 PrintAllSplits(PlayerID,batting_or_pitching)
-
-#print(SplitsPlatoon)
