@@ -61,10 +61,12 @@ def StartingPitchersPrintout(StartDate=Today,EndDate=Today):
     for pitcher in StartingPitchersdf:
         GetPitcherPrintout(pitcher)
 
+#NOTE: Only needed to test if Starting pitchrs
 def StartingPitchersTest(StartDate=Today,EndDate=Today):
     starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
     StartingPitchersdf = starters['Name']
     print (StartingPitchersdf)
+    print ()
 
 # starters = espn.ProbableStartersScraper(Today, Today).scrape()
 # StartingPitchersdf = starters['Name']
@@ -72,7 +74,8 @@ def StartingPitchersTest(StartDate=Today,EndDate=Today):
 # for pitcher in StartingPitchersdf:
 #     GetPitcherPrintout(pitcher)
 StartingPitchersTest()
-StartingPitchersPrintout()
+#StartingPitchersPrintout()
+StartingPitchersPrintout(Tomorrow,Tomorrow)
 #GetBatterPrintout("Juan Soto")
 
 

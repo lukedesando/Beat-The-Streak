@@ -1,15 +1,30 @@
 import csv
+from numpy import True_
 from statsapi import player_stats,player_stat_data,lookup_player
 from baseball_scraper import playerid_lookup
 
-def num_names(player_name):
+def num_names(PlayerName):
     count=1
-    for i in range(0,len(player_name)):
-        if player_name[i] == " ":
+    for i in range(0,len(PlayerName)):
+        if PlayerName[i] == " ":
             count+=1
     return count
 
-def check_num_names(PlayerName):
+#HACK There has to be a better way to do this
+def Period_Check(PlayerName):
+    if num_names(PlayerName) == 2:
+        for i in range(0,len(PlayerName)):
+            if PlayerName[i] == ".":
+                PlayerFirstName,PlayerLastName = PlayerName.split(" ")
+                idx = PlayerFirstName.index(".")+1
+                PlayerFirstName = PlayerFirstName[:idx]+" "+PlayerFirstName[idx:]
+                NewPlayerName = PlayerFirstName +" " + PlayerLastName
+                return NewPlayerName
+    return PlayerName
+
+
+def Player_Dataframe_Fetch(PlayerName):
+    PlayerName = Period_Check(PlayerName)
     try:
         if num_names(PlayerName) == 3:
             pname0,pname1,pname2 = PlayerName.split(" ")
@@ -18,21 +33,23 @@ def check_num_names(PlayerName):
         else:
             PlayerFirstName,PlayerLastName=PlayerName.split(" ")
         Player_ID_Dataframe = playerid_lookup(PlayerLastName,PlayerFirstName)
-        #print(Player_ID_Dataframe)
         return Player_ID_Dataframe
-
     except ValueError as e:
         print(f'Problem searching for {PlayerName}\nerror: {e}')
 
 def Get_MLB_ID(PlayerName):
     "Because I'm Lazy"
-    PlayerJson = lookup_player(PlayerName)
-    PlayerID = PlayerJson[0]['id']
-    return PlayerID
+    try:
+        PlayerJson = lookup_player(PlayerName)
+        PlayerID = PlayerJson[0]['id']
+        return PlayerID
+    except IndexError as e:
+        print (f'Problem searching for {PlayerName}\nerror: {e}')
+    
 
 def Get_BBRef_ID(PlayerName):
     "Because now I'm thinking ahead"
-    Player_ID_Dataframe = check_num_names(PlayerName)
+    Player_ID_Dataframe = Player_Dataframe_Fetch(PlayerName)
 
     SanitizedIDFrame = Player_ID_Dataframe.loc[Player_ID_Dataframe['mlb_played_last']==2021]
     BBRefKey = SanitizedIDFrame['key_bbref']
