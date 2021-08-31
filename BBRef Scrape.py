@@ -4,8 +4,8 @@ import pandas as pd
 from functools import partial
 
 #hyperlink = "https://www.baseball-reference.com/players/gl.fcgi?id=turnetr01&t=b&year=2021"
-PlayerName = "Fernando Tatis"
-batting_or_pitching = "batting"
+PlayerName = "Patrick Corbin"
+batting_or_pitching = "pitching"
 year = 2021
 
 PlayerID = Get_BBRef_ID(PlayerName)
@@ -32,7 +32,7 @@ SplitsSeasonTotalsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&si
 id%3D{}%26year%3D{}%26t%3D{}&div=div_total'''.format(PlayerID,year,b_or_p)
 
 ## remove the junk out of the dataframe
-GameLogs=pd.read_html(GameLogsURL)[0].query('aLI != "aLI"')\
+PlayerGameLogs=pd.read_html(GameLogsURL)[0].query('aLI != "aLI"')\
     .drop('Unnamed: 5', axis=1)\
     .apply(partial(pd.to_numeric, errors='ignore'))\
     .reset_index(drop=True)
