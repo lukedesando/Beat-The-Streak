@@ -5,7 +5,7 @@ from functools import partial
 from datetime import date
 
 CurrentYear = date.today().year
-PlayerName = "Fernando Tatis"
+PlayerName = "Carlos Correa"
 #batting_or_pitching = "pitching"
 year = 2021
 
@@ -34,9 +34,6 @@ batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(PlayerID)
 SplitsWidgetsURL ='''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
 id%3D{}%26year%3D{}%26t%3D{}&div='''.format(PlayerID,year,b_or_p)
 
-GameLogsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3F\
-id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(PlayerID,b_or_p,year,batting_or_pitching)
-
 #FIXME Cleanup needed? Any way to group these?
 SplitsSeasonTotalsURL = SplitsWidgetsURL+"div_total"
 
@@ -59,20 +56,9 @@ SplitsGameConditionsURL = SplitsWidgetsURL+"div_stad"
 SplitsGameConditionsPitchersURL = SplitsWidgetsURL+"div_stad_extra"
 
 
-## set our url, notice the differences
-#url = "https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dturnetr01%26t%3Db%26year%3D2021&div=div_batting_gamelogs"
-#url = "https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dscherma01%26t%3Dp%26year%3D2021&div=div_pitching_gamelogs"
-#url = "https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dscherma01%26t%3Dp%26year%3D2020&div=div_pitching_gamelogs"
-
-
-## remove the junk out of a given dataframe
+## removes the junk out of a given dataframe
 #XXX Should this be turned into a class? Or is there a better way to do this?
 #class SplitsDataframes(Self):
-
-PlayerGameLogs=pd.read_html(GameLogsURL)[0].query('R != "R"')\
-    .drop('Unnamed: 5', axis=1)\
-    .apply(partial(pd.to_numeric, errors='ignore'))\
-    .reset_index(drop=True)
 
 Splits = pd.read_html(SplitsSeasonTotalsURL)[0].query('G != "G"')\
     .apply(partial(pd.to_numeric, errors='ignore'))\
@@ -127,5 +113,5 @@ if batting_or_pitching == 'batting':
     # Stats are based on the three years before and after (when available), and the season for when the split is computed.
     # A split in 1994 would consider years 1991-1997 when classifying a pitcher.
 
-# GameLogs.to_csv(PlayerName + " Game Logs.csv",index=False)
-PrintAllSplits(PlayerID,batting_or_pitching)
+#PrintAllSplits(PlayerID,batting_or_pitching)
+PrintAllSplits(Get_BBRef_ID("Vladimir Guerrero"))
