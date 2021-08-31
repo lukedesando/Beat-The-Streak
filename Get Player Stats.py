@@ -1,4 +1,6 @@
+from logging import ERROR, error
 from typing import Optional
+from numpy import errstate
 from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
 from BackgroundFunctions import Get_MLB_ID, Get_BBRef_ID
@@ -15,18 +17,22 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
     \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
     
     PitcherID = Get_MLB_ID(PitcherName)
-    PitcherStatsDict = player_stat_data(PitcherID,group='pitching')
-    print(PitcherName)
-    
-    #PitcherBasics = ['first_name','last_name','pitch_hand']
-    for stat in PitcherBasics:
-        print (PitcherStatsDict.get(stat))
+    try:
+        PitcherStatsDict = player_stat_data(PitcherID,group='pitching')
+        print(PitcherName)
+        
+        #PitcherBasics = ['first_name','last_name','pitch_hand']
+        for stat in PitcherBasics:
+            print (PitcherStatsDict.get(stat))
 
-    print(PitcherID)
+        print(PitcherID)
 
-    #PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn',]
-    for stat in PitcherStats:
-        print (f"{stat}: {PitcherStatsDict['stats'][0]['stats'][stat]}")
+        #PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn',]
+        for stat in PitcherStats:
+            print (f"{stat}: {PitcherStatsDict['stats'][0]['stats'][stat]}")
+    except:
+        print("Can't print due to error")
+    #NOTE: needed to separate the pitchers
     print()
 
 def GetBatterPrintout(BatterName,BatterBasics=['current_team','bat_side'],
@@ -55,12 +61,18 @@ def StartingPitchersPrintout(StartDate=Today,EndDate=Today):
     for pitcher in StartingPitchersdf:
         GetPitcherPrintout(pitcher)
 
+def StartingPitchersTest(StartDate=Today,EndDate=Today):
+    starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
+    StartingPitchersdf = starters['Name']
+    print (StartingPitchersdf)
+
 # starters = espn.ProbableStartersScraper(Today, Today).scrape()
 # StartingPitchersdf = starters['Name']
 # #print(StartingPitchersdf)
 # for pitcher in StartingPitchersdf:
 #     GetPitcherPrintout(pitcher)
-#StartingPitchersPrintout()
+StartingPitchersTest()
+StartingPitchersPrintout()
 #GetBatterPrintout("Juan Soto")
 
 
