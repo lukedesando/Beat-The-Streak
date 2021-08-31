@@ -9,78 +9,54 @@ PlayerName = "Fernando Tatis"
 #batting_or_pitching = "pitching"
 year = 2021
 
-# def Check_Batting_or_Pitching(batting_or_pitching):
-#     if batting_or_pitching == "pitching":
-#         return "p","pitch"
-#     else:
-#         return "b", "bat"
-
-#XXX: I want a way to add more urls to both sides more easily. They will be out of order. Is there a way?
+#XXX: See other XXX note
 def PrintAllSplits(PlayerID,batting_or_pitching="batting",dfList=""):
     "Defaults to batting"
     print(PlayerID,"\n")
+
     if batting_or_pitching == "pitching":
-        dfList = Splits,SplitsPitcher,SplitsPlatoon, SplitsPlatoonPitcher, SplitsGameConditions, SplitsGameConditionsPitchers, SplitsMonths
+        dfList = Splits, SplitsPitcher,SplitsPlatoon, SplitsPlatoonPitcher,\
+            SplitsGameConditions, SplitsGameConditionsPitchers, SplitsMonths
         for df in dfList:
             print (df,"\n")
     else:
-        dfList = Splits,SplitsPlatoon, SplitsGameConditions, SplitsMonths, SplitsPowerPitcher, SplitsGBFBPitcher, SplitsHitTrajectory
+        dfList = Splits,SplitsPlatoon, SplitsGameConditions, SplitsMonths,\
+            SplitsPowerPitcher, SplitsGBFBPitcher, SplitsHitTrajectory
         for df in dfList:
             print (df,"\n")
 
 
+#XXX Reduce testing time by a few seconds by not going through the get ID function
 PlayerID = Get_BBRef_ID(PlayerName)
-batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(PlayerID)
-#Reduces testing time by a few seconds to not go through the get ID function
 #PlayerID = "corbipa01"
+batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(PlayerID)
 
-#b_or_p, bat_or_pitch = Check_Batting_or_Pitching(batting_or_pitching)
-#PlayerID = 'tatisfe02'
-# if batting_or_pitching == "pitching":
-#     b_or_p = "p"
-#     bat_or_pitch = "pitch"
-# else:
-#     b_or_p = "b"
-#     bat_or_pitch = "bat"
+SplitsWidgetsURL ='''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+id%3D{}%26year%3D{}%26t%3D{}&div='''.format(PlayerID,year,b_or_p)
 
 GameLogsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3F\
 id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(PlayerID,b_or_p,year,batting_or_pitching)
 
-SplitsSeasonTotalsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3D{}&div=div_total'''.format(PlayerID,year,b_or_p)
+#FIXME Cleanup needed? Any way to group these?
+SplitsSeasonTotalsURL = SplitsWidgetsURL+"div_total"
 
-SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(PlayerID,year)
-#NOTE: widget is designed for pitchers; does not exist for hitters
+SplitsSeasonTotalsPitchersURL = SplitsWidgetsURL+"div_total_extra"
 
-SplitsPlatoonURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3D{}&div=div_plato'''.format(PlayerID,year,b_or_p)
+SplitsPlatoonURL = SplitsWidgetsURL+"div_plato"
 
-SplitsPlatoonPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Dp&div=div_hmvis_extra'''.format(PlayerID,year)
-#NOTE: widget is designed for pitchers; does not exist for hitters
+SplitsPlatoonPitchersURL = SplitsWidgetsURL+"div_hmvis_extra"
 
-SplitsMonthsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3D{}&div=div_month'''.format(PlayerID,year,b_or_p)
+SplitsMonthsURL = SplitsWidgetsURL+"div_month"
 
-SplitsPowerorFinessePitcherURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Db&div=div_power'''.format(PlayerID,year)
-#NOTE: widget is designed for hitters; does not exist for pitchers
+SplitsPowerorFinessePitcherURL = SplitsWidgetsURL+"div_power"
 
-SplitsHitTrajectoryURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Db&div=div_traj'''.format(PlayerID,year)
-#NOTE: widget is designed for hitters; does not exist for pitchers
+SplitsHitTrajectoryURL = SplitsWidgetsURL+"div_traj"
 
-SplitsGroundBallFlyBallURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Db&div=div_gbfb'''.format(PlayerID,year)
-#NOTE: widget is designed for hitters; does not exist for pitchers
+SplitsGroundBallFlyBallURL = SplitsWidgetsURL+"div_gbfb"
 
-SplitsGameConditionsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3D{}&div=div_stad'''.format(PlayerID,year,b_or_p)
+SplitsGameConditionsURL = SplitsWidgetsURL+"div_stad"
 
-SplitsGameConditionsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Dp&div=div_stad_extra'''.format(PlayerID,year)
-#NOTE: widget is designed for pitchers; does not exist for hitters
+SplitsGameConditionsPitchersURL = SplitsWidgetsURL+"div_stad_extra"
 
 
 ## set our url, notice the differences
@@ -91,6 +67,8 @@ id%3D{}%26year%3D{}%26t%3Dp&div=div_stad_extra'''.format(PlayerID,year)
 
 ## remove the junk out of a given dataframe
 #XXX Should this be turned into a class? Or is there a better way to do this?
+#class SplitsDataframes(Self):
+
 PlayerGameLogs=pd.read_html(GameLogsURL)[0].query('R != "R"')\
     .drop('Unnamed: 5', axis=1)\
     .apply(partial(pd.to_numeric, errors='ignore'))\
@@ -148,7 +126,6 @@ if batting_or_pitching == 'batting':
     # Ground Ball are in the bottom third of the league in the ratio of fly ball outs to ground ball outs.
     # Stats are based on the three years before and after (when available), and the season for when the split is computed.
     # A split in 1994 would consider years 1991-1997 when classifying a pitcher.
-
 
 # GameLogs.to_csv(PlayerName + " Game Logs.csv",index=False)
 PrintAllSplits(PlayerID,batting_or_pitching)
