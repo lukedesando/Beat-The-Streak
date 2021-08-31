@@ -29,11 +29,11 @@ id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(PlayerID,year)
 def PrintAllSplits(PlayerID,batting_or_pitching="batting"):
     print(PlayerID,"\n")
     if batting_or_pitching == "pitching":
-        dfList = Splits,SplitsPitcher,SplitsPlatoon, SplitsPlatoonPitcher, SplitsMonths
+        dfList = Splits,SplitsPitcher,SplitsPlatoon, SplitsPlatoonPitcher, SplitsGameConditions, SplitsGameConditionsPitchers, SplitsMonths
         for df in dfList:
             print (df,"\n")
     else:
-        dfList = Splits,SplitsPlatoon, SplitsMonths, SplitsPowerPitcher, SplitsGBFBPitcher, SplitsHitTrajectory
+        dfList = Splits,SplitsPlatoon, SplitsGameConditions, SplitsMonths, SplitsPowerPitcher, SplitsGBFBPitcher, SplitsHitTrajectory
         for df in dfList:
             print (df,"\n")
 
@@ -81,8 +81,16 @@ id%3D{}%26year%3D{}%26t%3Db&div=div_traj'''.format(PlayerID,year)
 #NOTE: widget is designed for hitters; does not exist for pitchers
 
 SplitsGroundBallFlyBallURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Db&div=div_traj'''.format(PlayerID,year)
+id%3D{}%26year%3D{}%26t%3Db&div=div_gbfb'''.format(PlayerID,year)
 #NOTE: widget is designed for hitters; does not exist for pitchers
+
+SplitsGameConditionsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+id%3D{}%26year%3D{}%26t%3D{}&div=div_stad'''.format(PlayerID,year,b_or_p)
+
+SplitsGameConditionsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+id%3D{}%26year%3D{}%26t%3Dp&div=div_stad_extra'''.format(PlayerID,year)
+#NOTE: widget is designed for pitchers; does not exist for hitters
+
 
 ## set our url, notice the differences
 #url = "https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dturnetr01%26t%3Db%26year%3D2021&div=div_batting_gamelogs"
@@ -109,12 +117,20 @@ SplitsMonths = pd.read_html(SplitsMonthsURL)[0].query('G != "G"')\
     .apply(partial(pd.to_numeric, errors='ignore'))\
     .reset_index(drop=True)
 
+SplitsGameConditions = pd.read_html(SplitsGameConditionsURL)[0].query('G != "G"')\
+    .apply(partial(pd.to_numeric, errors='ignore'))\
+    .reset_index(drop=True)
+
 if batting_or_pitching == "pitching":
     SplitsPitcher = pd.read_html(SplitsSeasonTotalsPitchersURL)[0].query('G != "G"')\
     .apply(partial(pd.to_numeric, errors='ignore'))\
     .reset_index(drop=True)
 
     SplitsPlatoonPitcher = pd.read_html(SplitsPlatoonPitchersURL)[0].query('G != "G"')\
+    .apply(partial(pd.to_numeric, errors='ignore'))\
+    .reset_index(drop=True)
+
+    SplitsGameConditionsPitchers = pd.read_html(SplitsGameConditionsPitchersURL)[0].query('G != "G"')\
     .apply(partial(pd.to_numeric, errors='ignore'))\
     .reset_index(drop=True)
 
@@ -137,6 +153,10 @@ if batting_or_pitching == 'batting':
     .dropna(axis=1)\
     .apply(partial(pd.to_numeric, errors='ignore'))\
     .reset_index(drop=True)
+    # NOTE: Fly Ball pitchers are in the top third of the league in ratio of fly ball outs to ground ball outs.
+    # Ground Ball are in the bottom third of the league in the ratio of fly ball outs to ground ball outs.
+    # Stats are based on the three years before and after (when available), and the season for when the split is computed.
+    # A split in 1994 would consider years 1991-1997 when classifying a pitcher.
 
 # GameLogs.to_csv(PlayerName + " Game Logs.csv",index=False)
 
