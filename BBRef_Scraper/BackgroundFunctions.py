@@ -1,10 +1,12 @@
 import csv
 from numpy import True_
-from statsapi import player_stats,player_stat_data,lookup_player
+from statsapi import player_stats,player_stat_data,lookup_player,schedule
 from baseball_scraper import playerid_lookup
 import pandas as pd
-from datetime import date
+from datetime import date, datetime,timedelta
 
+Today = date.today()
+Tomorrow = date.today() + timedelta(days=1)
 CurrentYear = date.today().year
 
 
@@ -52,7 +54,7 @@ def Get_MLB_ID(PlayerName):
     
 
 def Get_BBRef_ID(PlayerName):
-    "Because now I'm thinking ahead"
+    "First Name, Last Name"
     Player_ID_Dataframe = Player_Dataframe_Fetch(PlayerName)
 
     SanitizedIDFrame = Player_ID_Dataframe.loc[Player_ID_Dataframe['mlb_played_last']==2021]
