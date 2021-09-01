@@ -5,7 +5,7 @@ from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
 from BackgroundFunctions import Get_MLB_ID, Get_BBRef_ID
 from baseball_scraper import espn, playerid_lookup
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 
 import statsapi
 Today = datetime.today()
@@ -68,14 +68,18 @@ def StartingPitchersTest(StartDate=Today,EndDate=Today):
     print (StartingPitchersdf)
     print ()
 
+StartingPitchersPrintout()
+
 # starters = espn.ProbableStartersScraper(Today, Today).scrape()
 # StartingPitchersdf = starters['Name']
 # #print(StartingPitchersdf)
 # for pitcher in StartingPitchersdf:
 #     GetPitcherPrintout(pitcher)
-StartingPitchersTest()
-#StartingPitchersPrintout()
-StartingPitchersPrintout(Tomorrow,Tomorrow)
+#starters = espn.ProbableStartersScraper(Today, Tomorrow +timedelta(5)).scrape()
+#starters.to_csv("StartersTest.csv")
+#StartingPitchersPrintout(Tomorrow, Tomorrow)
+#GetBatterPrintout("Vladimir Guerrero")
+#tartingPitchersPrintout(Tomorrow,Tomorrow)
 #GetBatterPrintout("Juan Soto")
 
 
