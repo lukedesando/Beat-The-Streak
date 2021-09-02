@@ -54,7 +54,7 @@ StartingPitchersPrintoutwRoster()
 #roster(136)
 
 # # RosterList = rosterPlayers(120)+rosterPlayers(121)
-
+# # XXX: Right here!!!
 # # for Player in RosterList:
 # #     PrintInfo = Player[1]
 # #     PrintPlayerStats(PrintInfo)
