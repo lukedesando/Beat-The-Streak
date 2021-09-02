@@ -7,6 +7,21 @@
 from BackgroundFunctions import Get_BBRef_ID, Get_MLB_ID, Get_BBRefID_From_MLBID
 from BBRefScrape import PrintAllSplits, PrintAllSplitsBBRefID
 from PlayerPrintouts import PrintPlayerStats, PrintPlayerStatsMLBID
+from StatcastScrape import statcast_player, print_statcast_player
+from datetime import date, timedelta
+
+Today = date.today()
+Tomorrow = date.today() + timedelta(days=1)
+Yesterday = date.today() + timedelta(days=-1)
+CurrentYear = date.today().year
+ThirtyDaysAgo = date.today() + timedelta(days=-30)
+
+TodayString = str(Today)
+TomorrowString = str(Tomorrow)
+YesterdayString = str(Yesterday)
+BeginningofYearString = '2021-01-01'
+ThirtyDaysAgoString = str(ThirtyDaysAgo)
+
 
 PlayerList = ['Gerrit Cole', "Juan Soto"]
 
@@ -28,3 +43,4 @@ PlayerList = ['Gerrit Cole', "Juan Soto"]
 for player in PlayerList:
     PrintPlayerStats(player)
     PrintAllSplits(player)
+    print_statcast_player(start_dt= ThirtyDaysAgoString,PlayerName=player)
