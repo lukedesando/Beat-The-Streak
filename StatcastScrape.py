@@ -27,7 +27,7 @@ def statcast_player(PlayerName=None,start_dt=FiveDaysAgoString, end_dt=TodayStri
     else:
         return statcast_batter(start_dt,end_dt,MLBID)
 
-def statcast_player_print(PlayerName=None, start_dt=FiveDaysAgoString, end_dt=TodayString, MLBID=None):
+def print_statcast_player(PlayerName=None, start_dt=FiveDaysAgoString, end_dt=TodayString, MLBID=None):
     "Works by specifying either player name or MLBID"
     if MLBID != None:
         position = CheckPosition(MLBID)
