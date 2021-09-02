@@ -4,10 +4,12 @@
 # totals, last 7 and 14 days
 
 ## imports
+from BackgroundFunctions import rosterPlayers
 from BBRefScrape import PrintAllSplits
 from PlayerPrintouts import PrintPlayerStats
 from StatcastScrape import statcast_player, print_statcast_player
 from datetime import date, timedelta
+from statsapi import roster
 
 Today = date.today()
 Tomorrow = date.today() + timedelta(days=1)
@@ -43,9 +45,27 @@ PlayerList = ['Casey Mize', "Juan Soto",'Robbie Ray']
 #     print_statcast_player(players)
 #     PrintAllSplits(players)
 
-PrintPlayerStats("Shohei Ohtani")
-PrintAllSplits("Shohei Ohtani",batting_or_pitching='batting')
-print_statcast_player("Shohei Ohtani",position='DH')
+#print(roster(136))
+#print(rosterPlayers(136))
+#roster(136)
+RosterList = rosterPlayers(120)
+#i=0
+# for Person in RosterList:
+#     print(str(Person[0])+" is "+str(Person[1]))
+
+for Player in RosterList:
+    PrintInfo = Player[1]
+    PrintPlayerStats(PrintInfo)
+    #print_statcast_player(PrintInfo)
+#['roster'][1])
+#PlayerList = rosterPlayers(136)
+
+#for players in PlayerList:
+#    PrintPlayerStats(players)
+
+#PrintPlayerStats("Shohei Ohtani")
+#PrintAllSplits("Shohei Ohtani",batting_or_pitching='batting')
+#print_statcast_player("Shohei Ohtani",position='DH')
 
 # #NOTE: Just for printing!
 # for player in PlayerList:
