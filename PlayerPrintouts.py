@@ -1,9 +1,6 @@
-from logging import ERROR, error
-from typing import Optional
-from numpy import errstate
 from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
-from BackgroundFunctions import Get_MLB_ID, Get_BBRef_ID,Check_bat_or_pitch,Get_BBRefID_From_MLBID
+from BackgroundFunctions import CheckPosition, Get_MLB_ID
 from baseball_scraper import espn, playerid_lookup
 from datetime import datetime, time, timedelta
 
@@ -11,21 +8,24 @@ import statsapi
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 
-def PrintPitcherStats(PitcherName,PitcherBasics=['current_team','pitch_hand'],
+def PrintPitcherStats(PlayerName=None,MLBID=None,PitcherBasics=['current_team','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn']):
     '''Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
     \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
     
-    PitcherID = Get_MLB_ID(PitcherName)
+    if MLBID == None:
+        MLBID = Get_MLB_ID(PlayerName)
+        
     try:
-        PitcherStatsDict = player_stat_data(PitcherID,group='pitching')
-        print(PitcherName)
+        PitcherStatsDict = player_stat_data(MLBID,group='pitching')
+        if PlayerName!=None:
+            print(PlayerName)
         
         #PitcherBasics = ['first_name','last_name','pitch_hand']
         for stat in PitcherBasics:
             print (PitcherStatsDict.get(stat))
 
-        print(PitcherID)
+        print(MLBID)
 
         #PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn',]
         for stat in PitcherStats:
@@ -35,19 +35,22 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
     #NOTE: needed to separate the pitchers
     print()
 
-def PrintBatterStats(BatterName,BatterBasics=['current_team','bat_side'],
+def PrintBatterStats(PlayerName=None,MLBID=None,BatterBasics=['current_team','bat_side'],
 BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
     '''Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
     \nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default'''
     
-    BatterID = Get_MLB_ID(BatterName)
-    BatterStatsDict = player_stat_data(BatterID,group='batting')
-    print(BatterName)
+    if MLBID == None:
+        MLBID = Get_MLB_ID(PlayerName)
+
+    BatterStatsDict = player_stat_data(MLBID,group='batting')
+    if PlayerName!=None:
+        print(PlayerName)
     
     for stat in BatterBasics:
         print (BatterStatsDict.get(stat))
 
-    print(BatterID)
+    print(MLBID)
 
     for stat in BatterStats:
         print (f"{stat}: {BatterStatsDict['stats'][0]['stats'][stat]}")
@@ -108,22 +111,16 @@ def StartingPitchersTest(StartDate=Today,EndDate=Today):
     print (StartingPitchersdf)
     print ()
 
-def PrintPlayerStats(PlayerName):
-    BBrefID = Get_BBRef_ID(PlayerName)
-    MLBID = Get_MLB_ID(PlayerName)
-    bat_or_pitch = Check_bat_or_pitch(BBrefID)
-    if bat_or_pitch == 'bat':
-        PrintBatterStatsMLBID(MLBID)
-    else:
-        PrintPitcherStatsMLBID(MLBID)
+def PrintPlayerStats(PlayerName=None,MLBID=None):
+    if MLBID == None:
+        if PlayerName != None:
+            MLBID = Get_MLB_ID(PlayerName)
 
-def PrintPlayerStatsMLBID(MLBID):
-    BBrefID = Get_BBRefID_From_MLBID(MLBID)
-    bat_or_pitch = Check_bat_or_pitch(BBrefID)
-    if bat_or_pitch == 'bat':
-        PrintBatterStatsMLBID(MLBID)
-    else:
+    position = CheckPosition(MLBID)
+    if position == 'P':
         PrintPitcherStatsMLBID(MLBID)
+    else:
+        PrintBatterStatsMLBID(MLBID)
 
 #StartingPitchersPrintout()
 

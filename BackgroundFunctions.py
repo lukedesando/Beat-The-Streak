@@ -11,28 +11,25 @@ CurrentYear = date.today().year
 
 
 def num_names(PlayerName):
-    count=1
-    for i in range(0,len(PlayerName)):
-        if PlayerName[i] == " ":
-            count+=1
+    count=PlayerName.count(" ")+1
     return count
 
 #HACK There has to be a better way to do this
-def Period_Check(PlayerName):
-    if num_names(PlayerName) == 2:
-        for i in range(0,len(PlayerName)):
-            if PlayerName[i] == ".":
-                PlayerFirstName,PlayerLastName = PlayerName.split(" ")
-                idx = PlayerFirstName.index(".")+1
-                PlayerFirstName = PlayerFirstName[:idx]+" "+PlayerFirstName[idx:]
-                NewPlayerName = PlayerFirstName +" " + PlayerLastName
-                return NewPlayerName
-    return PlayerName
+def Name_Check(PlayerName):
+    namesNum = num_names(PlayerName)
+    if namesNum == 2:
+        if "." in PlayerName:
+            PlayerFirstName,PlayerLastName = PlayerName.split(" ")
+            idx = PlayerFirstName.index(".")+1
+            PlayerFirstName = PlayerFirstName[:idx]+" "+PlayerFirstName[idx:]
+            PlayerName = PlayerFirstName +" " + PlayerLastName
+    return namesNum, PlayerName
 
+#FIXME: calls numnames twice, once through period check and next through calling it
 def Player_Dataframe_Fetch(PlayerName):
-    PlayerName = Period_Check(PlayerName)
+    namesNum, PlayerName = Name_Check(PlayerName)
     try:
-        if num_names(PlayerName) == 3:
+        if namesNum == 3:
             pname0,pname1,pname2 = PlayerName.split(" ")
             PlayerFirstName = pname0 + " " + pname1
             PlayerLastName = pname2
