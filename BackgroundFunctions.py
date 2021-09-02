@@ -25,6 +25,7 @@ def Name_Check(PlayerName):
             idx = PlayerFirstName.index(".")+1
             PlayerFirstName = PlayerFirstName[:idx]+" "+PlayerFirstName[idx:]
             PlayerName = PlayerFirstName +" " + PlayerLastName
+            namesNum = 3
     if namesNum == 3:
         if "Jr" in PlayerName:
             pname0,pname1,pname2 = PlayerName.split(" ")
