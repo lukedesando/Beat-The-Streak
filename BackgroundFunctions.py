@@ -92,7 +92,7 @@ def Find_Fangraph_ID(player_name):
             #print(FGid)
             return int(FGid)
 
-#FIXME: Need an exception for Shohei Ohtani
+#FIXME: Need input of MLBID to run faster
 def Check_batting_or_pitching(BBRefPlayerID,year=CurrentYear):
     '''Widget exists only for pitchers. If it exists, player is pitcher. If not, player is hitter\n
     Returns 3 values'''
