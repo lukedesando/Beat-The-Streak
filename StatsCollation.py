@@ -4,7 +4,6 @@
 # totals, last 7 and 14 days
 
 ## imports
-from BackgroundFunctions import CheckPosition, Get_BBRef_ID, Get_MLB_ID, Get_BBRefID_From_MLBID
 from BBRefScrape import PrintAllSplits
 from PlayerPrintouts import PrintPlayerStats
 from StatcastScrape import statcast_player, print_statcast_player
@@ -39,10 +38,15 @@ PlayerList = ['Casey Mize', "Juan Soto",'Robbie Ray']
 #     BBRefID = Get_BBRef_ID(player)
 #     PrintPlayerStatsMLBID(MLBID)
 #     PrintAllSplitsBBRefID(BBRefID)
-for players in PlayerList:
-    PrintPlayerStats(players)
-    print_statcast_player(players)
-    PrintAllSplits(players)
+# for players in PlayerList:
+#     PrintPlayerStats(players)
+#     print_statcast_player(players)
+#     PrintAllSplits(players)
+
+PrintPlayerStats("Shohei Ohtani")
+PrintAllSplits("Shohei Ohtani",batting_or_pitching='batting')
+print_statcast_player("Shohei Ohtani",position='DH')
+
 # #NOTE: Just for printing!
 # for player in PlayerList:
 #     #PrintPlayerStats(player)

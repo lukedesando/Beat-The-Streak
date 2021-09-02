@@ -28,7 +28,7 @@ def AddToSplitsDict(KeyList: list,ValueList: list,SplitsWidgetURL,SplitsDict={})
         n = n+1
 
 
-def PrintAllSplits(PlayerName=None,BBRefID=None,\
+def PrintAllSplits(PlayerName=None,BBRefID=None,batting_or_pitching=None,\
     #NOTE: These are parameters
     KeyList=["SplitsSeasonTotals","SplitsPlatoon","SplitsMonths",'SplitsGameConditions'],\
     ValueList=["div_total",'div_plato','div_month','div_stad'],\
@@ -43,8 +43,10 @@ def PrintAllSplits(PlayerName=None,BBRefID=None,\
     print(BBRefID,"\n")
 
     SplitsDict = {}
-
-    batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(BBRefID)
+    if batting_or_pitching == None:
+        batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(BBRefID)
+    else:
+        b_or_p = batting_or_pitching[0]
     SplitsWidgetURL ='''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3Fid%3D{}%26year%3D{}%26t%3D{}&div='''.format(BBRefID,year,b_or_p)
 
     AddToSplitsDict(KeyList, ValueList,SplitsWidgetURL,SplitsDict)
