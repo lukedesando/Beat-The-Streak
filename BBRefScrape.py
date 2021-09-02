@@ -40,7 +40,7 @@ def PrintAllSplits(PlayerName=None,BBRefID=None,\
 
     if BBRefID == None:
         BBRefID = Get_BBRef_ID(PlayerName)
-    #print(PlayerID,"\n")
+    print(BBRefID,"\n")
 
     SplitsDict = {}
 
