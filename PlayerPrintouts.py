@@ -8,7 +8,7 @@ import statsapi
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 
-def PrintPitcherStats(PlayerName=None,MLBID=None,PitcherBasics=['current_team','pitch_hand'],
+def PrintPitcherStats(PlayerName=None,MLBID=None,PitcherBasics=['first_name','last_name','current_team','position','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn']):
     '''Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
     \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
@@ -18,8 +18,6 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
         
     try:
         PitcherStatsDict = player_stat_data(MLBID,group='pitching')
-        if PlayerName!=None:
-            print(PlayerName)
         
         #PitcherBasics = ['first_name','last_name','pitch_hand']
         for stat in PitcherBasics:
@@ -35,7 +33,7 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
     #NOTE: needed to separate the pitchers
     print()
 
-def PrintBatterStats(PlayerName=None,MLBID=None,BatterBasics=['current_team','bat_side'],
+def PrintBatterStats(PlayerName=None,MLBID=None,BatterBasics=['first_name','last_name','current_team','position','bat_side'],
 BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
     '''Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
     \nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default'''
@@ -44,53 +42,11 @@ BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
         MLBID = Get_MLB_ID(PlayerName)
 
     BatterStatsDict = player_stat_data(MLBID,group='batting')
-    if PlayerName!=None:
-        print(PlayerName)
     
     for stat in BatterBasics:
         print (BatterStatsDict.get(stat))
 
     print(MLBID)
-
-    for stat in BatterStats:
-        print (f"{stat}: {BatterStatsDict['stats'][0]['stats'][stat]}")
-    print()
-
-def PrintPitcherStatsMLBID(MLBPitcherID,PitcherBasics=['first_name','last_name','current_team','pitch_hand'],
-PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn']):
-    '''Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
-    \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
-    
-    try:
-        PitcherStatsDict = player_stat_data(MLBPitcherID,group='pitching')
-        
-        #PitcherBasics = ['first_name','last_name','pitch_hand']
-        for stat in PitcherBasics:
-            print (PitcherStatsDict.get(stat))
-
-        print(MLBPitcherID)
-
-        #PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn',]
-        for stat in PitcherStats:
-            print (f"{stat}: {PitcherStatsDict['stats'][0]['stats'][stat]}")
-    except:
-        print("Can't print due to error")
-    #NOTE: needed to separate the pitchers
-    print()
-
-def PrintBatterStatsMLBID(MLBBatterID,BatterBasics=['first_name','last_name','current_team','bat_side'],
-BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
-    '''Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
-    \nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default'''
-    
-    #BatterID = Get_MLB_ID(BatterName)
-    BatterStatsDict = player_stat_data(MLBBatterID,group='batting')
-    #print(BatterName)
-    
-    for stat in BatterBasics:
-        print (BatterStatsDict.get(stat))
-
-    print(MLBBatterID)
 
     for stat in BatterStats:
         print (f"{stat}: {BatterStatsDict['stats'][0]['stats'][stat]}")
@@ -118,9 +74,9 @@ def PrintPlayerStats(PlayerName=None,MLBID=None):
 
     position = CheckPosition(MLBID)
     if position == 'P':
-        PrintPitcherStatsMLBID(MLBID)
+        PrintPitcherStats(MLBID=MLBID)
     else:
-        PrintBatterStatsMLBID(MLBID)
+        PrintBatterStats(MLBID=MLBID)
 
 #StartingPitchersPrintout()
 
