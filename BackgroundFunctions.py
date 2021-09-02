@@ -1,9 +1,11 @@
 import csv
+import json
 from numpy import True_
-from statsapi import player_stats,player_stat_data,lookup_player,schedule
+from statsapi import player_stats,player_stat_data,lookup_player, roster,schedule
 from baseball_scraper import playerid_lookup,playerid_reverse_lookup
 import pandas as pd
 from datetime import date, datetime,timedelta
+from statsapi import get
 
 Today = date.today()
 Tomorrow = date.today() + timedelta(days=1)
@@ -114,7 +116,26 @@ id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
     except ImportError:
         return "bat"
 
-def MakeList(MyString):
+def ConfirmList(MyString):
     if not isinstance(MyString,list):
         MyString = [MyString]
     return MyString
+
+def rosterPlayers(teamId, rosterType=None, season=datetime.now().year, date=None):
+    """Get the roster for a given team."""
+    if not rosterType:
+        rosterType = "active"
+
+    params = {"rosterType": rosterType, "season": season, "teamId": teamId}
+    if date:
+        params.update({"date": date})
+
+    r = get("team_roster", params)
+
+    players = []
+    for x in r["roster"]:
+        players.append(
+            [x["person"]["fullName"], x["person"]['id'], x["position"]["abbreviation"]]
+        )
+
+    return players
