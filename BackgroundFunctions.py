@@ -25,6 +25,13 @@ def Name_Check(PlayerName):
             idx = PlayerFirstName.index(".")+1
             PlayerFirstName = PlayerFirstName[:idx]+" "+PlayerFirstName[idx:]
             PlayerName = PlayerFirstName +" " + PlayerLastName
+    if namesNum == 3:
+        if "Jr" in PlayerName:
+            pname0,pname1,pname2 = PlayerName.split(" ")
+            PlayerFirstName = pname0
+            PlayerLastName = pname1
+            PlayerName = PlayerFirstName +" " + PlayerLastName
+            namesNum = 2
     return namesNum, PlayerName
 
 #FIXME: calls numnames twice, once through period check and next through calling it
@@ -99,7 +106,7 @@ def Check_batting_or_pitching(BBRefPlayerID,year=CurrentYear):
     '''Widget exists only for pitchers. If it exists, player is pitcher. If not, player is hitter\n
     Returns 3 values'''
     try:
-        SplitsSeasonTotalsPitchersURL = '''https:, #widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+        SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
 id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
         pd.read_html(SplitsSeasonTotalsPitchersURL)
         return "pitching","pitch","p"
@@ -109,7 +116,7 @@ id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
 def Check_bat_or_pitch(BBRefPlayerID,year=CurrentYear):
     "Returns 1 value"
     try:
-        SplitsSeasonTotalsPitchersURL = '''https:, #widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+        SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
 id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
         pd.read_html(SplitsSeasonTotalsPitchersURL)
         return "pitch"
