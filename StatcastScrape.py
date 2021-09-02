@@ -15,18 +15,18 @@ YesterdayString = str(Yesterday)
 FiveDaysAgoString = str(FiveDaysAgo)
 BeginningofYearString = '2021-01-01'
 
-def statcast_player(PlayerName=None,start_dt=FiveDaysAgoString, end_dt=TodayString, MLBID=None, position=None):
+def statcast_player(PlayerName=None,start_string=FiveDaysAgoString, end_string=TodayString, MLBID=None, position=None):
     "Works by specifying either player name or MLBID"
     if MLBID == None:
         MLBID = Get_MLB_ID(PlayerName)
     if position == None:
         position = CheckPosition(MLBID)
     if position == 'P':
-        return statcast_pitcher(start_dt,end_dt,MLBID)
+        return statcast_pitcher(start_string,end_string,MLBID)
     else:
-        return statcast_batter(start_dt,end_dt,MLBID)
+        return statcast_batter(start_string,end_string,MLBID)
 
-def print_statcast_player(PlayerName=None, start_dt=FiveDaysAgoString, end_dt=TodayString, MLBID=None, position=None):
+def print_statcast_player(PlayerName=None, start_string=FiveDaysAgoString, end_string=TodayString, MLBID=None, position=None):
     "Works by specifying either player name or MLBID"
     if MLBID == None:
         MLBID = Get_MLB_ID(PlayerName)
@@ -34,6 +34,6 @@ def print_statcast_player(PlayerName=None, start_dt=FiveDaysAgoString, end_dt=To
         position = CheckPosition(MLBID)
     print(MLBID)
     if position == 'P':
-        print(statcast_pitcher(start_dt,end_dt,MLBID))
+        print(statcast_pitcher(start_string,end_string,MLBID))
     else:
-        print(statcast_batter(start_dt,end_dt,MLBID))
+        print(statcast_batter(start_string,end_string,MLBID))
