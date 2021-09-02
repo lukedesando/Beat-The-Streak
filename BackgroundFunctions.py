@@ -52,6 +52,14 @@ def Get_MLB_ID(PlayerName):
     except IndexError as e:
         print (f'Problem searching for {PlayerName}\nerror: {e}')
     
+def CheckPosition(PlayerNameorMLBID):
+    try:
+        PlayerJson = lookup_player(PlayerNameorMLBID)
+        PlayerPosition = PlayerJson[0]['primaryPosition']
+        PlayerAbb = PlayerPosition['abbreviation']
+        return PlayerAbb
+    except IndexError as e:
+        print (f'Problem searching for {PlayerNameorMLBID}\nerror: {e}')
 
 def Get_BBRef_ID(PlayerName):
     "First Name, Last Name"
