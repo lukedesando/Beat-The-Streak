@@ -99,7 +99,7 @@ def Check_batting_or_pitching(BBRefPlayerID,year=CurrentYear):
     '''Widget exists only for pitchers. If it exists, player is pitcher. If not, player is hitter\n
     Returns 3 values'''
     try:
-        SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+        SplitsSeasonTotalsPitchersURL = '''https:, #widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
 id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
         pd.read_html(SplitsSeasonTotalsPitchersURL)
         return "pitching","pitch","p"
@@ -109,7 +109,7 @@ id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
 def Check_bat_or_pitch(BBRefPlayerID,year=CurrentYear):
     "Returns 1 value"
     try:
-        SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
+        SplitsSeasonTotalsPitchersURL = '''https:, #widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
 id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
         pd.read_html(SplitsSeasonTotalsPitchersURL)
         return "pitch"
@@ -139,3 +139,39 @@ def rosterPlayers(teamId, rosterType=None, season=datetime.now().year, date=None
         )
 
     return players
+
+def ESPNTeamIDtoMLBTeamID(ESPNTeamID):
+    TeamIDDict ={
+        'CHC' : 112,
+        'PIT' : 134,
+        'NYY' : 147,
+        'BAL' : 110,
+        'WSH' : 120,
+        'NYM' : 121,
+        'TOR' : 141,
+        'OAK' : 133,
+        'BOS' : 111,
+        'CLE' : 114,
+        'CIN' : 113,
+        'DET' : 116,
+        'TB' : 139,
+        'MIN' : 142,
+        'MIA' : 146,
+        'PHI' : 143,
+        'KC' : 118,
+        'CHW' : 145,
+        'MIL' : 158,
+        'STL' : 138,
+        'COL' : 115,
+        'ATL' : 144,
+        'LAA' : 108,
+        'TEX' : 140,
+        'ARI' : 109,
+        'SEA' : 136,
+        'SF' : 137,
+        'LAD' : 119,
+        'SD' : 135,
+        'HOU' : 117
+    }
+    MLBTeamID = TeamIDDict[ESPNTeamID]
+    return MLBTeamID

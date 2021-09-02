@@ -1,6 +1,7 @@
+from bs4.element import TemplateString
 from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
-from BackgroundFunctions import CheckPosition, Get_MLB_ID
+from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers,ESPNTeamIDtoMLBTeamID
 from baseball_scraper import espn, playerid_lookup
 from datetime import datetime, time, timedelta
 
@@ -78,7 +79,30 @@ def PrintPlayerStats(PlayerName=None,MLBID=None):
     else:
         PrintBatterStats(MLBID=MLBID)
 
-#StartingPitchersPrintout()
+def StartingPitchersPrintoutwRoster(StartDate=Today,EndDate=Today):
+    '''Today is selected by default as the start and end dates
+    \n Encounters errors if used with past dates'''
+    starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
+    #print(starters)
+    #TotalDf = StartingPitchersdf+Opponentdf
+    for i, row in starters.iterrows():
+        pitcher = row['Name']
+        opponent = row['opponent']
+        PrintPitcherStats(pitcher)
+        print(rosterPlayers(ESPNTeamIDtoMLBTeamID(opponent)))
+        print()
+        #print(starters['Name'])
+        #PrintPitcherStats(pitcher)
+        #print(starters['opponent'][pitcher])
+
+# starters = espn.ProbableStartersScraper(Tomorrow, Tomorrow).scrape()
+# for i, row in starters.iterrows():
+#     opponent = row['opponent']
+#     print("'"+opponent+"' : ")
+
+
+#StartingPitchersTest(Tomorrow,Tomorrow)
+#StartingPitchersPrintoutwRoster(Tomorrow,Tomorrow)
 
 # starters = espn.ProbableStartersScraper(Today, Today).scrape()
 # StartingPitchersdf = starters['Name']
