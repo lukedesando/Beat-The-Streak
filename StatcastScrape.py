@@ -1,5 +1,5 @@
 ## imports
-from BackgroundFunctions import CurrentYear, Get_BBRef_ID, Get_MLB_ID, Get_BBRefID_From_MLBID, Check_bat_or_pitch
+from BackgroundFunctions import Get_BBRef_ID, Get_MLB_ID, Get_BBRefID_From_MLBID, Check_bat_or_pitch
 from baseball_scraper import statcast_batter, statcast_pitcher
 from datetime import date, timedelta
 
