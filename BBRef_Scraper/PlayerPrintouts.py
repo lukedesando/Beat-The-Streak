@@ -11,7 +11,7 @@ import statsapi
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 
-def GetPitcherPrintout(PitcherName,PitcherBasics=['current_team','pitch_hand'],
+def PrintPitcherStats(PitcherName,PitcherBasics=['current_team','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn']):
     '''Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
     \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
@@ -35,7 +35,7 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
     #NOTE: needed to separate the pitchers
     print()
 
-def GetBatterPrintout(BatterName,BatterBasics=['current_team','bat_side'],
+def PrintBatterStats(BatterName,BatterBasics=['current_team','bat_side'],
 BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
     '''Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
     \nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default'''
@@ -53,7 +53,7 @@ BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
         print (f"{stat}: {BatterStatsDict['stats'][0]['stats'][stat]}")
     print()
 
-def GetPitcherPrintoutMLBID(MLBPitcherID,PitcherBasics=['first_name','last_name','current_team','pitch_hand'],
+def PrintPitcherStatsMLBID(MLBPitcherID,PitcherBasics=['first_name','last_name','current_team','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn']):
     '''Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
     \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
@@ -75,7 +75,7 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
     #NOTE: needed to separate the pitchers
     print()
 
-def GetBatterPrintoutMLBID(MLBBatterID,BatterBasics=['first_name','last_name','current_team','bat_side'],
+def PrintBatterStatsMLBID(MLBBatterID,BatterBasics=['first_name','last_name','current_team','bat_side'],
 BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
     '''Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
     \nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default'''
@@ -99,7 +99,7 @@ def StartingPitchersPrintout(StartDate=Today,EndDate=Today):
     starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
     StartingPitchersdf = starters['Name']
     for pitcher in StartingPitchersdf:
-        GetPitcherPrintout(pitcher)
+        PrintPitcherStats(pitcher)
 
 #NOTE: Only needed to test if Starting pitchrs
 def StartingPitchersTest(StartDate=Today,EndDate=Today):
@@ -108,22 +108,22 @@ def StartingPitchersTest(StartDate=Today,EndDate=Today):
     print (StartingPitchersdf)
     print ()
 
-def GetPlayerPrintout(PlayerName):
+def PrintPlayerStats(PlayerName):
     BBrefID = Get_BBRef_ID(PlayerName)
     MLBID = Get_MLB_ID(PlayerName)
     bat_or_pitch = Check_bat_or_pitch(BBrefID)
     if bat_or_pitch == 'bat':
-        GetBatterPrintoutMLBID(MLBID)
+        PrintBatterStatsMLBID(MLBID)
     else:
-        GetPitcherPrintoutMLBID(MLBID)
+        PrintPitcherStatsMLBID(MLBID)
 
-def GetPlayerPrintoutMLBID(MLBID):
+def PrintPlayerStatsMLBID(MLBID):
     BBrefID = Get_BBRefID_From_MLBID(MLBID)
     bat_or_pitch = Check_bat_or_pitch(BBrefID)
     if bat_or_pitch == 'bat':
-        GetBatterPrintoutMLBID(MLBID)
+        PrintBatterStatsMLBID(MLBID)
     else:
-        GetPitcherPrintoutMLBID(MLBID)
+        PrintPitcherStatsMLBID(MLBID)
 
 #StartingPitchersPrintout()
 
@@ -131,13 +131,13 @@ def GetPlayerPrintoutMLBID(MLBID):
 # StartingPitchersdf = starters['Name']
 # #print(StartingPitchersdf)
 # for pitcher in StartingPitchersdf:
-#     GetPitcherPrintout(pitcher)
+#     PrintPitcherStats(pitcher)
 #starters = espn.ProbableStartersScraper(Today, Tomorrow +timedelta(5)).scrape()
 #starters.to_csv("StartersTest.csv")
 #StartingPitchersPrintout(Tomorrow, Tomorrow)
-#GetBatterPrintout("Vladimir Guerrero")
+#PrintBatterStats("Vladimir Guerrero")
 #tartingPitchersPrintout(Tomorrow,Tomorrow)
-#GetBatterPrintout("Juan Soto")
+#PrintBatterStats("Juan Soto")
 
 
 
