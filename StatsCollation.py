@@ -6,10 +6,11 @@
 ## imports
 from BackgroundFunctions import rosterPlayers
 from BBRefScrape import PrintAllSplits
-from PlayerPrintouts import PrintPlayerStats
+from PlayerPrintouts import PrintPlayerStats, StartingPitchersPrintout,PrintPitcherStats, StartingPitchersPrintoutwRoster
 from StatcastScrape import statcast_player, print_statcast_player
 from datetime import date, timedelta
 from statsapi import roster
+from baseball_scraper import espn
 
 Today = date.today()
 Tomorrow = date.today() + timedelta(days=1)
@@ -26,6 +27,9 @@ ThirtyDaysAgoString = str(ThirtyDaysAgo)
 
 PlayerList = ['Casey Mize', "Juan Soto",'Robbie Ray']
 
+#StartingPitchersPrintout()
+
+StartingPitchersPrintoutwRoster()
 #print(Check_bat_or_pitch('scherma01'))
 
 #PrintAllSplitsBBRefID(543037)
@@ -48,15 +52,20 @@ PlayerList = ['Casey Mize', "Juan Soto",'Robbie Ray']
 #print(roster(136))
 #print(rosterPlayers(136))
 #roster(136)
-RosterList = rosterPlayers(120)
+
+# # RosterList = rosterPlayers(120)+rosterPlayers(121)
+
+# # for Player in RosterList:
+# #     PrintInfo = Player[1]
+# #     PrintPlayerStats(PrintInfo)
+# #     #print_statcast_player(PrintInfo)
+
 #i=0
 # for Person in RosterList:
 #     print(str(Person[0])+" is "+str(Person[1]))
 
-for Player in RosterList:
-    PrintInfo = Player[1]
-    PrintPlayerStats(PrintInfo)
-    #print_statcast_player(PrintInfo)
+
+    
 #['roster'][1])
 #PlayerList = rosterPlayers(136)
 
