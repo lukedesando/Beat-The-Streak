@@ -3,7 +3,7 @@ from typing import Optional
 from numpy import errstate
 from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
-from BackgroundFunctions import Get_MLB_ID, Get_BBRef_ID
+from BackgroundFunctions import Get_MLB_ID, Get_BBRef_ID,Check_bat_or_pitch,Get_BBRefID_From_MLBID
 from baseball_scraper import espn, playerid_lookup
 from datetime import datetime, time, timedelta
 
@@ -53,21 +53,19 @@ BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
         print (f"{stat}: {BatterStatsDict['stats'][0]['stats'][stat]}")
     print()
 
-def GetPitcherPrintoutMLBID(PitcherName,PitcherBasics=['current_team','pitch_hand'],
+def GetPitcherPrintoutMLBID(MLBPitcherID,PitcherBasics=['first_name','last_name','current_team','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn']):
     '''Pitcher Basics include First Name, Last Name, Current Team, and Pitching Hand by default
     \nPitcher Stats are GS, SO, ERA, AVG, WHIP, Hits, and H/9 by default'''
     
-    PitcherID = Get_MLB_ID(PitcherName)
     try:
-        PitcherStatsDict = player_stat_data(PitcherID,group='pitching')
-        print(PitcherName)
+        PitcherStatsDict = player_stat_data(MLBPitcherID,group='pitching')
         
         #PitcherBasics = ['first_name','last_name','pitch_hand']
         for stat in PitcherBasics:
             print (PitcherStatsDict.get(stat))
 
-        print(PitcherID)
+        print(MLBPitcherID)
 
         #PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn',]
         for stat in PitcherStats:
@@ -77,19 +75,19 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
     #NOTE: needed to separate the pitchers
     print()
 
-def GetBatterPrintoutMLBID(BatterID,BatterBasics=['first_name','last_name','current_team','bat_side'],
+def GetBatterPrintoutMLBID(MLBBatterID,BatterBasics=['first_name','last_name','current_team','bat_side'],
 BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops']):
     '''Batter Basics include First Name, Last Name, Current Team, and Batting Side by default
     \nBatter Stats are H, AVG, BABIP, SO, BB, OBP, and OPS by default'''
     
     #BatterID = Get_MLB_ID(BatterName)
-    BatterStatsDict = player_stat_data(BatterID,group='batting')
+    BatterStatsDict = player_stat_data(MLBBatterID,group='batting')
     #print(BatterName)
     
     for stat in BatterBasics:
         print (BatterStatsDict.get(stat))
 
-    print(BatterID)
+    print(MLBBatterID)
 
     for stat in BatterStats:
         print (f"{stat}: {BatterStatsDict['stats'][0]['stats'][stat]}")
@@ -109,6 +107,23 @@ def StartingPitchersTest(StartDate=Today,EndDate=Today):
     StartingPitchersdf = starters['Name']
     print (StartingPitchersdf)
     print ()
+
+def GetPlayerPrintout(PlayerName):
+    BBrefID = Get_BBRef_ID(PlayerName)
+    MLBID = Get_MLB_ID(PlayerName)
+    bat_or_pitch = Check_bat_or_pitch(BBrefID)
+    if bat_or_pitch == 'bat':
+        GetBatterPrintoutMLBID(MLBID)
+    else:
+        GetPitcherPrintoutMLBID(MLBID)
+
+def GetPlayerPrintoutMLBID(MLBID):
+    BBrefID = Get_BBRefID_From_MLBID(MLBID)
+    bat_or_pitch = Check_bat_or_pitch(BBrefID)
+    if bat_or_pitch == 'bat':
+        GetBatterPrintoutMLBID(MLBID)
+    else:
+        GetPitcherPrintoutMLBID(MLBID)
 
 #StartingPitchersPrintout()
 

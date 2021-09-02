@@ -40,7 +40,7 @@ def PrintAllSplits(PlayerName,\
     PitcherValueList=['div_total_extra','div_hmvis_extra','div_stad_extra']):
     
     PlayerID = Get_BBRef_ID(PlayerName)
-    print(PlayerID,"\n")
+    #print(PlayerID,"\n")
 
     SplitsDict = {}
 
@@ -79,7 +79,7 @@ def PrintAllSplitsBBRefID(PlayerID,\
     PitcherKeyList=['SplitsPitcher','SplitsPlatoonPitcher','SplitsGameConditionsPitcher'],\
     PitcherValueList=['div_total_extra','div_hmvis_extra','div_stad_extra']):
     
-    print(PlayerID,"\n")
+    #print(PlayerID,"\n")
 
     SplitsDict = {}
 
