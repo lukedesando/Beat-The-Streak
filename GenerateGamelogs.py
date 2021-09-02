@@ -49,12 +49,15 @@ def GenerateGamelogRoster(MLBTeamID = None):
     for player in RosterList:
         try:
             GenerateGamelogCSV(player[0])
+        #FIXME not catching error of player who exists with no gamelogs, crashes instead
         except OSError:
             print("Could not print " + player[0])
 
-PrintGamelog("Javier Baez")
-GenerateGamelogCSV("Javier Baez")
-#GenerateGamelogRoster(121)
+
+
+#PrintGamelog("Javier Baez")
+#GenerateGamelogCSV("Javier Baez")
+GenerateGamelogRoster(120)
 #Get_BBRef_ID("JD Davis")
 #print(Get_BBRef_ID("J. D. Davis"))
 #GenerateGamelogCSV("J. D. Davis")
