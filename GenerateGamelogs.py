@@ -1,5 +1,15 @@
 ## imports
-from BackgroundFunctions import Get_BBRef_ID, Check_batting_or_pitching, rosterPlayers
+import sys
+from pandas.core.frame import DataFrame
+from statsapi import player_stats,player_stat_data,lookup_player
+import pandas as pd
+from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers,ESPNTeamIDtoMLBTeamID, playerid_lookup
+from baseball_scraper import espn
+from datetime import datetime, timedelta
+Today = datetime.today()
+Tomorrow = datetime.today() + timedelta(days=1)
+
+from BackgroundFunctions import Get_BBRef_and_MLB_ID, Check_batting_or_pitching, rosterPlayers
 import pandas as pd
 from functools import partial
 from datetime import date
@@ -13,23 +23,19 @@ CurrentYear = date.today().year
 #PlayerID = "corbipa01"
 
 #XXX Reduce testing time by a few seconds by not going through the get ID function
-def GenerateGamelogCSV(PlayerName = None,BBRefID=None,year=CurrentYear):
-    BBRefID = Get_BBRef_ID(PlayerName)
-    PlayerGameLogs = GenerateGamelog(PlayerName=PlayerName,BBRefID=BBRefID)
+def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
+    if BBRefID == None:
+        BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+    PlayerGameLogs = GenerateGamelog(PlayerName,BBRefID,MLBID,year)
 
     PlayerGameLogs.to_csv("GameLogs "+ PlayerName + " " + BBRefID + ".csv",index=False)
 
-def PrintGamelog(PlayerName = None,BBRefID=None,year=CurrentYear):
-    BBRefID = Get_BBRef_ID(PlayerName)
-    PlayerGameLogs = GenerateGamelog(PlayerName=PlayerName,BBRefID=BBRefID)
-    print(PlayerGameLogs)
 
-
-def GenerateGamelog(PlayerName = None,BBRefID=None,year=CurrentYear):
+def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
     if BBRefID == None:
-        BBRefID = Get_BBRef_ID(PlayerName)
+        BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
 
-    batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(BBRefID)
+    batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(MLBID)
 
     GameLogsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3F\
 id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,batting_or_pitching)
@@ -44,7 +50,7 @@ id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,b
 
     return PlayerGameLogs
 
-def GenerateGamelogRoster(MLBTeamID = None):
+def GenerateGamelogRosterCSV(MLBTeamID = None):
     RosterList = rosterPlayers(MLBTeamID)
     for player in RosterList:
         try:
@@ -54,10 +60,13 @@ def GenerateGamelogRoster(MLBTeamID = None):
             print("Could not print " + player[0])
 
 
+#Testing Fuctions
+if __name__ == '__main__':
+    GenerateGamelogRosterCSV(121)
 
 #PrintGamelog("Javier Baez")
 #GenerateGamelogCSV("Javier Baez")
-GenerateGamelogRoster(120)
+
 #Get_BBRef_ID("JD Davis")
 #print(Get_BBRef_ID("J. D. Davis"))
 #GenerateGamelogCSV("J. D. Davis")
