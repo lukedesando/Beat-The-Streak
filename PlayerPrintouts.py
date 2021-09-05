@@ -1,10 +1,12 @@
-from statsapi import player_stats,player_stat_data,lookup_player
+from statsapi import player_stats,player_stat_data
 import pandas as pd
-from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers,ESPNTeamIDtoMLBTeamID
-from baseball_scraper import espn, playerid_lookup
+from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers,ESPNTeamIDtoMLBTeamID, playerid_lookup
+from baseball_scraper import espn
 from datetime import datetime, time, timedelta
+import sys
+from pandas.core.frame import DataFrame
 
-import statsapi
+
 Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 
@@ -71,13 +73,61 @@ def RosterBatterStatsPrintout(MLBTeamID):
         if PlayerPosition != 'P':
             PrintPlayerStats(MLBID = PlayerID, position = PlayerPosition)
 
+def CSV_PlayerStats(PlayerName=None,MLBID=None,position = None,
+BatterBasics=['first_name','last_name','current_team','position','bat_side'],
+BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops'],
+PitcherBasics=['first_name','last_name','current_team','position','pitch_hand'],
+PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn','walksPer9Inn']):
+
+    if MLBID == None:
+        MLBID = Get_MLB_ID(PlayerName)
+    
+    if position == None:
+        position = CheckPosition(MLBID)
+    
+    if position == "P":
+        PlayerBasics = PitcherBasics
+        PlayerStats = PitcherStats
+        group = 'pitching'
+    else:
+        PlayerBasics = BatterBasics
+        PlayerStats = BatterStats
+        group = 'batting'
+    
+    try:
+        PlayerBasicsDict = player_stat_data(MLBID,group=group)
+        PlayerStatsDict = PlayerBasicsDict['stats'][0]['stats']
+        PlayerBasicsDict.pop('stats')
+        PlayerDict = dict(PlayerBasicsDict, **PlayerStatsDict)
+        if PlayerName == None:
+            PlayerName = PlayerDict['first_name'] + " " + PlayerDict['last_name']
+        csv_file = "Basic Print " + PlayerName + ".csv"
+        PlayerBasicsandStats = PlayerBasics + PlayerStats
+        #dict(d1,**)
+        #(dictionary)[keys]
+        PrintFrame = pd.DataFrame([PlayerDict])[PlayerBasicsandStats]#.iloc[[0]]
+        PrintFrame = PrintFrame.drop_duplicates()
+        #print(type(PrintFrame))
+        print(PrintFrame)
+        PrintFrame.to_csv(csv_file,index=False)
+
+    except:
+        e = sys.exc_info()[0]
+        print(e)
+        print("Can't print due to error")
+    #NOTE: needed to separate the pitchers
+    print()
+
+
+#Testing Fuctions
+if __name__ == '__main__':
+    PlayerList = ["Max Scherzer","Kris Bryant","Javier Baez","Jose Berrios","Craig Kimbrel"]
+
+    for Player in PlayerList:
+        CSV_PlayerStats(Player)
+
 
 #StartingPitchersPrintoutwRoster()
-
-PlayerList = ["Max Scherzer","Kris Bryant","Javier Baez","Jose Berrios","Craig Kimbrel"]
-
-for Player in PlayerList:
-    PrintPlayerStats(Player)
 
 #RosterBatterStatsPrintout(120)
 
