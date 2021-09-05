@@ -79,6 +79,21 @@ BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops'],
 PitcherBasics=['first_name','last_name','current_team','position','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn','walksPer9Inn']):
 
+    PrintFrame = GetPlayerStats(PlayerName,MLBID,position,BatterBasics,BatterStats,PitcherBasics,PitcherStats)
+    csv_file = "Basic Print " + PlayerName + ".csv"
+    #dict(d1,**)
+    #(dictionary)[keys]
+    #print(type(PrintFrame))
+    print(PrintFrame)
+    PrintFrame.to_csv(csv_file,index=False)
+
+
+def GetPlayerStats(PlayerName=None,MLBID=None, position = None,
+BatterBasics=['first_name','last_name','current_team','position','bat_side'],
+BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops'],
+PitcherBasics=['first_name','last_name','current_team','position','pitch_hand'],
+PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn','walksPer9Inn']):
+
     if MLBID == None:
         MLBID = Get_MLB_ID(PlayerName)
     
@@ -101,22 +116,31 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
         PlayerDict = dict(PlayerBasicsDict, **PlayerStatsDict)
         if PlayerName == None:
             PlayerName = PlayerDict['first_name'] + " " + PlayerDict['last_name']
-        csv_file = "Basic Print " + PlayerName + ".csv"
+        # csv_file = "Basic Print " + PlayerName + ".csv"
         PlayerBasicsandStats = PlayerBasics + PlayerStats
         #dict(d1,**)
         #(dictionary)[keys]
-        PrintFrame = pd.DataFrame([PlayerDict])[PlayerBasicsandStats]#.iloc[[0]]
-        PrintFrame = PrintFrame.drop_duplicates()
+        PlayerFrame = pd.DataFrame([PlayerDict])[PlayerBasicsandStats]#.iloc[[0]]
+        PlayerFrame = PlayerFrame.drop_duplicates()
         #print(type(PrintFrame))
-        print(PrintFrame)
-        PrintFrame.to_csv(csv_file,index=False)
+        #print(PlayerFrame)
+        # PlayerFrame.to_csv(csv_file,index=False)
 
     except:
         e = sys.exc_info()[0]
         print(e)
-        print("Can't print due to error")
-    #NOTE: needed to separate the pitchers
-    print()
+        print("Can't find {PlayerName} stats due to error")
+
+    return PlayerFrame
+
+def CSV_RosterStats(MLBTeamID):
+    RosterList = rosterPlayers(MLBTeamID)
+    for player in RosterList:
+        try:
+            CSV_PlayerStats(player[0])
+        #FIXME not catching error of player who exists with no gamelogs, crashes instead
+        except OSError:
+            print("Could not print " + player[0])
 
 
 #Testing Fuctions
