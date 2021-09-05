@@ -5,12 +5,13 @@
 
 ## imports
 from BackgroundFunctions import rosterPlayers
-from BBRefScrape import PrintAllSplits
+from BBRefScrape import GetAllSplits, PrintAllSplits
 from PlayerPrintouts import PrintPlayerStats, StartingPitchersPrintout,PrintPitcherStats, StartingPitchersPrintoutwRoster
 from StatcastScrape import statcast_player, print_statcast_player
 from datetime import date, timedelta
 from statsapi import roster
 from baseball_scraper import espn
+import pandas as pd
 
 Today = date.today()
 Tomorrow = date.today() + timedelta(days=1)
@@ -24,12 +25,29 @@ YesterdayString = str(Yesterday)
 BeginningofYearString = '2021-01-01'
 ThirtyDaysAgoString = str(ThirtyDaysAgo)
 
+def PrintAllInfo(PlayerName):
+    PrintPlayerStats(PlayerName)
+    PrintAllSplits(PlayerName)
+    #print_statcast_player(PlayerName)
 
-PlayerList = ['Casey Mize', "Juan Soto",'Robbie Ray']
+#StartingPitchersPrintoutwRoster()
+PlayerList = ["Nick Castellanos", "Clayton Kershaw", "Max Scherzer", "Trea Turner","Alcides Escobar"]
 
+for player in PlayerList:
+    PrintAllInfo(player)
+
+writer = pd.ExcelWriter('out.xlsx', engine='xlsxwriter')
+df_from_each_file = (pd.read_csv(f) fo)
+
+for idx, df in enumerate(df_from_each_file):
+    df.to_excel(writer, sheet_name='data{0}.csv'.format(idx))
+
+writer.save()
+
+#PrintAllSplits(BBRefID="smithwi05")
 #StartingPitchersPrintout()
 
-StartingPitchersPrintoutwRoster()
+
 #print(Check_bat_or_pitch('scherma01'))
 
 #PrintAllSplitsBBRefID(543037)
