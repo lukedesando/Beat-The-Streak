@@ -1,0 +1,6 @@
+    #NOTE: Keeping all keys and values here so we don't lose them
+    # KeyList = ["SplitsSeasonTotals","SplitsSeasonTotalsPitchers","SplitsPlatoon","SplitsPlatoonPitchers",\
+    # "SplitsMonths",'SplitsPowerorFinessePitcher','SplitsHitTrajectory',\
+    # 'SplitsGroundBallFlyBall','SplitsGameConditions','SplitsGameConditionsPitchers']
+    # ValueList = ["div_total","div_total_extra","div_plato","div_hmvis_extra","div_month",'div_power','div_traj',\
+    # 'div_gbfb','div_stad','div_stad_extra']
