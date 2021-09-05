@@ -6,12 +6,13 @@
 ## imports
 from BackgroundFunctions import rosterPlayers
 from BBRefScrape import GetAllSplits, PrintAllSplits
-from PlayerPrintouts import PrintPlayerStats, StartingPitchersPrintout,PrintPitcherStats, StartingPitchersPrintoutwRoster
+from PlayerPrintouts import CSV_RosterStats, PrintPlayerStats, StartingPitchersPrintoutwRoster, CSV_PlayerStats
 from StatcastScrape import statcast_player, print_statcast_player
 from datetime import date, timedelta
 from statsapi import roster
 from baseball_scraper import espn
 import pandas as pd
+from GenerateGamelogs import GenerateGamelogCSV
 
 Today = date.today()
 Tomorrow = date.today() + timedelta(days=1)
@@ -30,11 +31,18 @@ def PrintAllInfo(PlayerName):
     PrintAllSplits(PlayerName)
     #print_statcast_player(PlayerName)
 
+def GenerateAllCSVs(PlayerName):
+    CSV_PlayerStats(PlayerName)
+    GenerateGamelogCSV(PlayerName)
+
 #StartingPitchersPrintoutwRoster()
 PlayerList = ["Nick Castellanos", "Clayton Kershaw", "Max Scherzer", "Trea Turner","Alcides Escobar"]
 
 for player in PlayerList:
-    PrintAllInfo(player)
+    GenerateAllCSVs(player)
+    # PrintAllInfo(player)
+
+# CSV_RosterStats(121)
 
 writer = pd.ExcelWriter('out.xlsx', engine='xlsxwriter')
 df_from_each_file = (pd.read_csv(f) fo)
@@ -54,18 +62,6 @@ writer.save()
 #PrintAllSplits('Max Scherzer')
 
 #GetBatterPrintoutMLBID()
-
-#print(Get_BBRefID_From_MLBID([543037]))
-#FIXME: Touches database twice; should probably combine into one touch
-# for player in PlayerList:
-#     MLBID = Get_MLB_ID(player)
-#     BBRefID = Get_BBRef_ID(player)
-#     PrintPlayerStatsMLBID(MLBID)
-#     PrintAllSplitsBBRefID(BBRefID)
-# for players in PlayerList:
-#     PrintPlayerStats(players)
-#     print_statcast_player(players)
-#     PrintAllSplits(players)
 
 #print(roster(136))
 #print(rosterPlayers(136))
