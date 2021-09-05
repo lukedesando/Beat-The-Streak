@@ -1,6 +1,4 @@
 import csv
-import json
-from numpy import True_
 from statsapi import player_stats,player_stat_data,lookup_player, roster,schedule
 from baseball_scraper import playerid_lookup,playerid_reverse_lookup
 import pandas as pd
@@ -68,15 +66,16 @@ def CheckPosition(PlayerNameorMLBID):
     except IndexError as e:
         print (f'Problem searching for {PlayerNameorMLBID}\nerror: {e}')
 
-def Get_BBRef_ID(PlayerName):
+def Get_BBRef_and_MLB_ID(PlayerName):
     "First Name, Last Name"
     Player_ID_Dataframe = Player_Dataframe_Fetch(PlayerName)
 
     SanitizedIDFrame = Player_ID_Dataframe.loc[Player_ID_Dataframe['mlb_played_last']==2021]
     BBRefKey = SanitizedIDFrame['key_bbref']
-
+    MLBKey = SanitizedIDFrame['key_mlbam']
+    SanitizedMLBKey = MLBKey.to_string(index=False)
     SanitizedBBRefKey = BBRefKey.to_string(index=False)
-    return SanitizedBBRefKey
+    return SanitizedBBRefKey, SanitizedMLBKey
 
 def Get_BBRefID_From_MLBID(MLBID):
     "Needs to import MLBID as a list"
@@ -103,15 +102,13 @@ def Find_Fangraph_ID(player_name):
             return int(FGid)
 
 #FIXME: Need input of MLBID to run faster
-def Check_batting_or_pitching(BBRefPlayerID,year=CurrentYear):
-    '''Widget exists only for pitchers. If it exists, player is pitcher. If not, player is hitter\n
-    Returns 3 values'''
-    try:
-        SplitsSeasonTotalsPitchersURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3F\
-id%3D{}%26year%3D{}%26t%3Dp&div=div_total_extra'''.format(BBRefPlayerID,year)
-        pd.read_html(SplitsSeasonTotalsPitchersURL)
+#FIXME: Need position, because batters who pitched in a game come up as pitchers
+def Check_batting_or_pitching(MLBID,year=CurrentYear):
+    '''Returns 3 values'''
+    
+    if CheckPosition(MLBID) == 'P':
         return "pitching","pitch","p"
-    except ImportError:
+    else:
         return "batting","bat","b"
 
 def Check_bat_or_pitch(BBRefPlayerID,year=CurrentYear):
@@ -183,3 +180,7 @@ def ESPNTeamIDtoMLBTeamID(ESPNTeamID):
     }
     MLBTeamID = TeamIDDict[ESPNTeamID]
     return MLBTeamID
+
+#Testing Fuctions
+if __name__ == '__main__':
+    print(Check_batting_or_pitching('almoral01'))
