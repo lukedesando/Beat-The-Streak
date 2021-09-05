@@ -1,5 +1,5 @@
 ## imports
-from BackgroundFunctions import Get_BBRef_ID, Check_batting_or_pitching
+from BackgroundFunctions import CheckPosition, Check_batting_or_pitching, Get_BBRef_and_MLB_ID, Get_MLB_ID
 import pandas as pd
 from functools import partial
 from datetime import date
@@ -27,8 +27,8 @@ def AddToSplitsDict(KeyList: list,ValueList: list,SplitsWidgetURL,SplitsDict={})
         #ValueList.remove(Value)
         n = n+1
 
-
-def PrintAllSplits(PlayerName=None,BBRefID=None,batting_or_pitching=None,\
+#FIXME: convert from print to dataframe; look at PlayerPrintouts for idea
+def GetAllSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=None,\
     #NOTE: These are parameters
     KeyList=["SplitsSeasonTotals","SplitsPlatoon","SplitsMonths",'SplitsGameConditions'],\
     ValueList=["div_total",'div_plato','div_month','div_stad'],\
@@ -39,14 +39,21 @@ def PrintAllSplits(PlayerName=None,BBRefID=None,batting_or_pitching=None,\
     "Specify if you will use the player's name or the BBRefID"
 
     if BBRefID == None:
-        BBRefID = Get_BBRef_ID(PlayerName)
-    print(BBRefID,"\n")
+        BBRefID, MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+    
+    if MLBID == None:
+        Get_MLB_ID(PlayerName)
+
+    position = CheckPosition(MLBID)
+
 
     SplitsDict = {}
-    if batting_or_pitching == None:
-        batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(BBRefID)
+    if position == 'P':
+        batting_or_pitching = 'pitching'
+        b_or_p = 'p'
     else:
-        b_or_p = batting_or_pitching[0]
+        batting_or_pitching = 'batting'
+        b_or_p = 'b'
     SplitsWidgetURL ='''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fsplit.fcgi%3Fid%3D{}%26year%3D{}%26t%3D{}&div='''.format(BBRefID,year,b_or_p)
 
     AddToSplitsDict(KeyList, ValueList,SplitsWidgetURL,SplitsDict)
@@ -62,10 +69,26 @@ def PrintAllSplits(PlayerName=None,BBRefID=None,batting_or_pitching=None,\
         .apply(partial(pd.to_numeric, errors='ignore'))\
         .reset_index(drop=True))
         print()
+    return "It Works"
 
-    #NOTE: Keeping all keys and values here so we don't lose them
-    # KeyList = ["SplitsSeasonTotals","SplitsSeasonTotalsPitchers","SplitsPlatoon","SplitsPlatoonPitchers",\
-    # "SplitsMonths",'SplitsPowerorFinessePitcher','SplitsHitTrajectory',\
-    # 'SplitsGroundBallFlyBall','SplitsGameConditions','SplitsGameConditionsPitchers']
-    # ValueList = ["div_total","div_total_extra","div_plato","div_hmvis_extra","div_month",'div_power','div_traj',\
-    # 'div_gbfb','div_stad','div_stad_extra']
+def PrintAllSplits(PlayerName=None,BBRefID=None,batting_or_pitching=None,\
+    #NOTE: These are parameters
+    KeyList=["SplitsSeasonTotals","SplitsPlatoon","SplitsMonths",'SplitsGameConditions'],\
+    ValueList=["div_total",'div_plato','div_month','div_stad'],\
+    BatterKeyList=["SplitsPowerPitcher","SplitsHitTrajectory","SplitsGBFBPitcher"],\
+    BatterValueList=['div_power','div_traj','div_gbfb'],\
+    PitcherKeyList=['SplitsPitcher','SplitsPlatoonPitcher','SplitsGameConditionsPitcher'],\
+    PitcherValueList=['div_total_extra','div_hmvis_extra','div_stad_extra']):
+    "Specify if you will use the player's name or the BBRefID"
+    if BBRefID == None:
+        BBRefID, MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+    print(BBRefID,"\n")
+    print (GetAllSplits(PlayerName,BBRefID,MLBID,batting_or_pitching,KeyList,ValueList,\
+        BatterKeyList,BatterValueList,PitcherKeyList,PitcherValueList))
+
+if __name__ == '__main__':
+    PrintAllSplits("Trea Turner")
+    PlayerList = ["Nick Castellanos", "Clayton Kershaw", "Max Scherzer", "Trea Turner","Alcides Escobar"]
+
+    for player in PlayerList:
+        PrintAllSplits(player)
