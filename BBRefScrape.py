@@ -69,7 +69,7 @@ def GetAllSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=Non
         .apply(partial(pd.to_numeric, errors='ignore'))\
         .reset_index(drop=True))
         print()
-    return "It Works"
+    return #"It Works"
 
 def PrintAllSplits(PlayerName=None,BBRefID=None,batting_or_pitching=None,\
     #NOTE: These are parameters

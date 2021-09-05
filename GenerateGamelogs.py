@@ -28,7 +28,7 @@ def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYea
         BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
     PlayerGameLogs = GenerateGamelog(PlayerName,BBRefID,MLBID,year)
 
-    PlayerGameLogs.to_csv("GameLogs "+ PlayerName + " " + BBRefID + ".csv",index=False)
+    PlayerGameLogs.to_csv("GameLogs "+ PlayerName + " " + MLBID + ".csv",index=False)
 
 
 def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):

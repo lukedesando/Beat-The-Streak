@@ -78,9 +78,10 @@ BatterBasics=['first_name','last_name','current_team','position','bat_side'],
 BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops'],
 PitcherBasics=['first_name','last_name','current_team','position','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn','walksPer9Inn']):
-
+    if MLBID == None:
+        MLBID = Get_MLB_ID(PlayerName)
     PrintFrame = GetPlayerStats(PlayerName,MLBID,position,BatterBasics,BatterStats,PitcherBasics,PitcherStats)
-    csv_file = "Basic Print " + PlayerName + ".csv"
+    csv_file = "BasicPrint " + PlayerName + " " + str(MLBID) + ".csv"
     #dict(d1,**)
     #(dictionary)[keys]
     #print(type(PrintFrame))
