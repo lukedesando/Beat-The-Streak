@@ -46,7 +46,8 @@ id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,b
         .apply(partial(pd.to_numeric, errors='ignore'))\
         .reset_index(drop=True)
 
-    PlayerGameLogs[PlayerGameLogs["Tm"].str.contains("Player went from")==False]
+    PlayerGameLogs = PlayerGameLogs[PlayerGameLogs["Tm"].str.contains('|'.join("Player went from"))==False]
+    #PlayerGameLogs[PlayerGameLogs["Tm"].str.contains("Player went from")==False]
 
     return PlayerGameLogs
 
@@ -62,7 +63,11 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 
 #Testing Fuctions
 if __name__ == '__main__':
-    GenerateGamelogRosterCSV(121)
+    #GenerateGamelogRosterCSV(121)
+    PlayerList = ["Nick Castellanos", "Clayton Kershaw", "Max Scherzer", "Trea Turner","Alcides Escobar"]
+    
+    for player in PlayerList:
+        GenerateGamelogCSV(player)
 
 #PrintGamelog("Javier Baez")
 #GenerateGamelogCSV("Javier Baez")
