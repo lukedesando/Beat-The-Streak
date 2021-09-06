@@ -85,7 +85,7 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
     #dict(d1,**)
     #(dictionary)[keys]
     #print(type(PrintFrame))
-    print(PrintFrame)
+    #print(PrintFrame)
     PrintFrame.to_csv(csv_file,index=False)
 
 
