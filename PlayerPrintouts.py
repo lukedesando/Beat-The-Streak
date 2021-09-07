@@ -48,6 +48,14 @@ PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer
         print (f"{stat}: {PlayerStatsDict['stats'][0]['stats'][stat]}")
     print()
 
+def StartingPitchersPrintout(StartDate=Today,EndDate=Today):
+    '''Today is selected by default as the start and end dates
+    \n Encounters errors if used with past dates'''
+    starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
+    for i, row in starters.iterrows():
+        pitcher = row['Name']
+        PrintPlayerStats(pitcher,position='P')
+
 def StartingPitchersPrintoutwRoster(StartDate=Today,EndDate=Today):
     '''Today is selected by default as the start and end dates
     \n Encounters errors if used with past dates'''
@@ -146,8 +154,9 @@ def CSV_RosterStats(MLBTeamID):
 
 #Testing Fuctions
 if __name__ == '__main__':
+    #StartingPitchersPrintout()
+    #PlayerList = ["Max Scherzer","Kris Bryant","Javier Baez","Jose Berrios","Craig Kimbrel"]
     PlayerList = ["Max Scherzer","Kris Bryant","Javier Baez","Jose Berrios","Craig Kimbrel"]
-
     for Player in PlayerList:
         CSV_PlayerStats(Player)
 
