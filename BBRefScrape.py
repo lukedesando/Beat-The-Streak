@@ -27,6 +27,10 @@ def AddToSplitsDict(KeyList: list,ValueList: list,SplitsWidgetURL,SplitsDict={})
         #ValueList.remove(Value)
         n = n+1
 
+def OpponentSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=None):
+    #TODO: Get Opponent Split numbers
+    pass
+
 #FIXME: convert from print to dataframe; look at PlayerPrintouts for idea
 def GetAllSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=None,\
     #NOTE: These are parameters
