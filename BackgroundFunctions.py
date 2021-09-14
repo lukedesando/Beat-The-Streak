@@ -1,4 +1,5 @@
 import csv
+from pandas.core.frame import DataFrame
 from statsapi import player_stats,player_stat_data,lookup_player, roster,schedule
 import pandas as pd
 from datetime import date, datetime,timedelta
@@ -67,9 +68,21 @@ def CheckPosition(PlayerNameorMLBID):
 
 def Get_BBRef_and_MLB_ID(PlayerName):
     "First Name, Last Name, Returns BBRef and MLB"
+    errorID = 'Series([], )'
+
     Player_ID_Dataframe = Player_Dataframe_Fetch(PlayerName)
+    
+    #TODO: Luis Garcia Exception
+    #FIXME: Luis Garcia gets treated like he doesn't exist until I figure out how to do this right
+
 
     SanitizedIDFrame = Player_ID_Dataframe.loc[Player_ID_Dataframe['mlb_played_last']==2021]
+    SanLength = len(SanitizedIDFrame.index)
+    if SanLength > 1:
+        print (SanitizedIDFrame)
+        print(str(SanLength) + ' players found with name {}'.format(PlayerName))
+        return errorID, errorID
+
     BBRefKey = SanitizedIDFrame['key_bbref']
     MLBKey = SanitizedIDFrame['key_mlbam']
     SanitizedMLBKey = MLBKey.to_string(index=False)

@@ -32,6 +32,7 @@ def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYea
         return
     else:
         PlayerGameLogs.to_csv("GameLogs "+ PlayerName + " " + MLBID + ".csv",index=False)
+        print("Returning GameLogs for {}".format(PlayerName))
 
 
 def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
@@ -69,11 +70,13 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 
 #Testing Fuctions
 if __name__ == '__main__':
-    #GenerateGamelogRosterCSV(121)
-    PlayerList = ["James Norweigan","Nick Castellanos", "Clayton Kershaw", "Max Scherzer", "Trea Turner","Alcides Escobar"]
+    # #GenerateGamelogRosterCSV(121)
+    PlayerList = ["Luke DeSando","Luis Garcia"]
     
     for player in PlayerList:
         GenerateGamelogCSV(player)
+
+    GenerateGamelogRosterCSV(ESPNTeamIDtoMLBTeamID('WSH'))
 
 #PrintGamelog("Javier Baez")
 #GenerateGamelogCSV("Javier Baez")
