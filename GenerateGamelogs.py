@@ -27,11 +27,17 @@ def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYea
     if BBRefID == None:
         BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
     PlayerGameLogs = GenerateGamelog(PlayerName,BBRefID,MLBID,year)
-
-    PlayerGameLogs.to_csv("GameLogs "+ PlayerName + " " + MLBID + ".csv",index=False)
+    if PlayerGameLogs is None:
+        print("Problem finding GameLogs for {}".format(PlayerName))
+        return
+    else:
+        PlayerGameLogs.to_csv("GameLogs "+ PlayerName + " " + MLBID + ".csv",index=False)
 
 
 def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
+    errorID = 'Series([], )'
+    if BBRefID == errorID:
+        return
     if BBRefID == None:
         BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
 
@@ -64,7 +70,7 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 #Testing Fuctions
 if __name__ == '__main__':
     #GenerateGamelogRosterCSV(121)
-    PlayerList = ["Nick Castellanos", "Clayton Kershaw", "Max Scherzer", "Trea Turner","Alcides Escobar"]
+    PlayerList = ["James Norweigan","Nick Castellanos", "Clayton Kershaw", "Max Scherzer", "Trea Turner","Alcides Escobar"]
     
     for player in PlayerList:
         GenerateGamelogCSV(player)
