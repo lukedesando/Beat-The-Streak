@@ -32,6 +32,13 @@ def print_statcast_player(PlayerName=None, start_string=FiveDaysAgoString, end_s
     "Works by specifying either player name or MLBID"
     print(statcast_player(PlayerName=PlayerName,start_string=start_string, end_string=end_string, MLBID=MLBID, position=position))
 
+def statcast_player_csv(PlayerName=None,start_string=FiveDaysAgoString, end_string=TodayString, MLBID=None, position=None):
+    "Works by specifying either player name or MLBID, exports CSV"
+    if MLBID == None:
+        MLBID = Get_MLB_ID(PlayerName)
+    CSVtoPrint = statcast_player(PlayerName=PlayerName,start_string=start_string, end_string=end_string, MLBID=MLBID, position=position)
+    CSVtoPrint.to_csv("Statcast " + str(MLBID) + " " + PlayerName +".csv")
 # Testing Functions
 if __name__ == '__main__':
-    pass
+    statcast_player_csv("Buster Posey",BeginningofYearString)
+    statcast_player_csv("Clayton Kershaw",BeginningofYearString)
