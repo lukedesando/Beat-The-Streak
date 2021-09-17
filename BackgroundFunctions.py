@@ -169,6 +169,14 @@ def BBRefTeamIDtoMLBTeamID(BBRefTeamID):
     MLBTeamID = MLBRow['MLBTeamID'].to_string(index=False)
     return MLBTeamID
 
+def GetMLBTeamID(TeamID):
+    '''Totally universal in application; will search any and all team ID names across multiple files
+    \n if it isn't found, editing needs to be done to the Team Map'''
+    df = GetTeamKeyMap()
+    df = df[df.isin([TeamID]).any(axis=1)]
+    MLBTeamID = df['MLBTeamID'].to_string(index=False)
+    return MLBTeamID
+
 def GetTeamKeyMap():
     '''I don't feel like remembering this file name
     \n Set it equal to a variable and you can use it in any team key lookup functions'''
@@ -239,5 +247,6 @@ def playerid_reverse_lookup(player_ids, key_type=None):
 
 #Testing Fuctions
 if __name__ == '__main__':
-    print(ESPNTeamIDtoMLBTeamID("SD"))
-    print(BBRefTeamIDtoMLBTeamID('SDP'))
+    print(GetMLBTeamID('WAS'))
+    print(GetMLBTeamID('WSN'))
+    print(GetMLBTeamID('Nationals'))
