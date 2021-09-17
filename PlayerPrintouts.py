@@ -11,11 +11,10 @@ Today = datetime.today()
 Tomorrow = datetime.today() + timedelta(days=1)
 
 #NOTE: Only needed to test if Starting pitchrs
-def StartingPitchersTest(StartDate=Today,EndDate=Today):
+def GetStartingPitchers(StartDate=Today,EndDate=Today):
     starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
     StartingPitchersdf = starters['Name']
-    print (StartingPitchersdf)
-    print ()
+    return StartingPitchersdf
 
 def PrintPlayerStats(PlayerName=None,MLBID=None, position = None,
 BatterBasics=['first_name','last_name','current_team','position','bat_side'],
@@ -23,6 +22,10 @@ BatterStats=['hits','avg','babip','strikeOuts','baseOnBalls','obp','ops'],
 PitcherBasics=['first_name','last_name','current_team','position','pitch_hand'],
 PitcherStats = ['gamesStarted', 'strikeOuts', 'era','avg','whip','hits','hitsPer9Inn','walksPer9Inn']):
 
+#FIXME: Ian Anderson is found as Brian Anderson by MLBAPI; no known solution, using workaround at this time
+    if PlayerName == "Ian Anderson":
+        MLBID = 666120
+    
     if MLBID == None:
         if PlayerName != None:
             MLBID = Get_MLB_ID(PlayerName)
@@ -156,9 +159,10 @@ def CSV_RosterStats(MLBTeamID):
 if __name__ == '__main__':
     #StartingPitchersPrintout()
     #PlayerList = ["Max Scherzer","Kris Bryant","Javier Baez","Jose Berrios","Craig Kimbrel"]
-    PlayerList = ["Max Scherzer","Kris Bryant","Javier Baez","Jose Berrios","Craig Kimbrel"]
-    for Player in PlayerList:
-        CSV_PlayerStats(Player)
+    # PlayerList = ["Max Scherzer","Kris Bryant","Javier Baez","Jose Berrios","Craig Kimbrel"]
+    # for Player in PlayerList:
+    #     CSV_PlayerStats(Player)
+    PrintPlayerStats("Ian Anderson")
 
 
 #StartingPitchersPrintoutwRoster()
