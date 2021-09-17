@@ -49,7 +49,7 @@ def Player_Dataframe_Fetch(PlayerName):
         print(f'Problem searching for {PlayerName}\nerror: {e}')
 
 def Get_MLB_ID(PlayerName):
-    "Because I'm Lazy"
+    "May cause errors for players with identical names to other players"
     try:
         PlayerJson = lookup_player(PlayerName)
         PlayerID = PlayerJson[0]['id']
@@ -158,43 +158,25 @@ def rosterPlayers(teamId, rosterType=None, season=datetime.now().year, date=None
     return players
 
 def ESPNTeamIDtoMLBTeamID(ESPNTeamID):
-    TeamIDDict ={
-        'CHC' : 112,
-        'PIT' : 134,
-        'NYY' : 147,
-        'BAL' : 110,
-        'WSH' : 120,
-        'NYM' : 121,
-        'TOR' : 141,
-        'OAK' : 133,
-        'BOS' : 111,
-        'CLE' : 114,
-        'CIN' : 113,
-        'DET' : 116,
-        'TB' : 139,
-        'MIN' : 142,
-        'MIA' : 146,
-        'PHI' : 143,
-        'KC' : 118,
-        'CHW' : 145,
-        'MIL' : 158,
-        'STL' : 138,
-        'COL' : 115,
-        'ATL' : 144,
-        'LAA' : 108,
-        'TEX' : 140,
-        'ARI' : 109,
-        'SEA' : 136,
-        'SF' : 137,
-        'LAD' : 119,
-        'SD' : 135,
-        'HOU' : 117
-    }
-    MLBTeamID = TeamIDDict[ESPNTeamID]
+    MLBTeamDataframe = GetTeamKeyMap()
+    MLBRow = MLBTeamDataframe.loc[MLBTeamDataframe['ESPNTEAM']==ESPNTeamID]
+    MLBTeamID = MLBRow['MLBTeamID'].to_string(index=False)
     return MLBTeamID
 
+def BBRefTeamIDtoMLBTeamID(BBRefTeamID):
+    MLBTeamDataframe = GetTeamKeyMap()
+    MLBRow = MLBTeamDataframe.loc[MLBTeamDataframe['BBREFTEAM']==BBRefTeamID]
+    MLBTeamID = MLBRow['MLBTeamID'].to_string(index=False)
+    return MLBTeamID
+
+def GetTeamKeyMap():
+    '''I don't feel like remembering this file name
+    \n Set it equal to a variable and you can use it in any team key lookup functions'''
+    MLBTeamDataframe = pd.read_csv('MLB Team Map.csv')
+    return MLBTeamDataframe
+
 def get_lookup_table():
-    print('Gathering player lookup table. This may take a moment.')
+    # print('Gathering player lookup table. This may take a moment.')
     # url = "https://raw.githubusercontent.com/chadwickbureau/register/master/data/people.csv"
     s="Chadwick Bureau People.csv"
     # table = pd.read_csv(io.StringIO(s.decode('utf-8')), dtype={'key_sr_nfl': object, 'key_sr_nba': object, 'key_sr_nhl': object})
@@ -257,4 +239,5 @@ def playerid_reverse_lookup(player_ids, key_type=None):
 
 #Testing Fuctions
 if __name__ == '__main__':
-    print(Check_batting_or_pitching('almoral01'))
+    print(ESPNTeamIDtoMLBTeamID("SD"))
+    print(BBRefTeamIDtoMLBTeamID('SDP'))

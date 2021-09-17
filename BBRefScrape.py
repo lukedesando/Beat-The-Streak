@@ -32,7 +32,7 @@ def OpponentSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=N
     pass
 
 #FIXME: convert from print to dataframe; look at PlayerPrintouts for idea
-def GetAllSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=None,\
+def GetAllSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=None,position=None,\
     #NOTE: These are parameters
     KeyList=["SplitsSeasonTotals","SplitsPlatoon","SplitsMonths",'SplitsGameConditions'],\
     ValueList=["div_total",'div_plato','div_month','div_stad'],\
@@ -46,9 +46,10 @@ def GetAllSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=Non
         BBRefID, MLBID = Get_BBRef_and_MLB_ID(PlayerName)
     
     if MLBID == None:
-        Get_MLB_ID(PlayerName)
+        MLBID = Get_MLB_ID(PlayerName)
 
-    position = CheckPosition(MLBID)
+    if position == None:
+        position = CheckPosition(MLBID)
 
 
     SplitsDict = {}

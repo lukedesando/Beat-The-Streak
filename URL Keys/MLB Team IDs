@@ -28,3 +28,38 @@
 	Marlins      = 146 // Miami Marlins
 	Yankees      = 147 // New York Yankees
 	Brewers      = 158 // Milwaukee Brewers
+
+	TeamIDDict ={
+        'CHC' : 112,
+        'PIT' : 134,
+        'NYY' : 147,
+        'BAL' : 110,
+        'WSH' : 120,
+        'NYM' : 121,
+        'TOR' : 141,
+        'OAK' : 133,
+        'BOS' : 111,
+        'CLE' : 114,
+        'CIN' : 113,
+        'DET' : 116,
+        'TB' : 139,
+        'MIN' : 142,
+        'MIA' : 146,
+        'PHI' : 143,
+        'KC' : 118,
+        'CHW' : 145,
+        'MIL' : 158,
+        'STL' : 138,
+        'COL' : 115,
+        'ATL' : 144,
+        'LAA' : 108,
+        'TEX' : 140,
+        'ARI' : 109,
+        'SEA' : 136,
+        'SF' : 137,
+        'LAD' : 119,
+        'SD' : 135,
+        'HOU' : 117,
+        'SD': 1449
+    }
+    MLBTeamID = TeamIDDict[ESPNTeamID]
