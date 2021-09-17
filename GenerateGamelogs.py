@@ -3,7 +3,7 @@ import sys
 from pandas.core.frame import DataFrame
 from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
-from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers,ESPNTeamIDtoMLBTeamID, playerid_lookup
+from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers, playerid_lookup
 from baseball_scraper import espn
 from datetime import datetime, timedelta
 Today = datetime.today()
@@ -29,9 +29,10 @@ def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYea
     PlayerGameLogs = GenerateGamelog(PlayerName,BBRefID,MLBID,year)
     if PlayerGameLogs is None:
         print("Problem finding GameLogs for {}".format(PlayerName))
+        print("Double check for possible errors")
         return
     else:
-        PlayerGameLogs.to_csv("GameLogs "+ PlayerName + " " + MLBID + ".csv",index=False)
+        PlayerGameLogs.to_csv("GameLogs "+ MLBID + " " + PlayerName + ".csv",index=False)
         print("Returning GameLogs for {}".format(PlayerName))
 
 
@@ -71,12 +72,12 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 #Testing Fuctions
 if __name__ == '__main__':
     # #GenerateGamelogRosterCSV(121)
-    PlayerList = ["Luke DeSando","Luis Garcia"]
+    PlayerList = ["Clayton Kershaw","Buster Posey","Luke DeSando"]
     
     for player in PlayerList:
         GenerateGamelogCSV(player)
 
-    GenerateGamelogRosterCSV(ESPNTeamIDtoMLBTeamID('WSH'))
+    # GenerateGamelogRosterCSV(ESPNTeamIDtoMLBTeamID('WSH'))
 
 #PrintGamelog("Javier Baez")
 #GenerateGamelogCSV("Javier Baez")

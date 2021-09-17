@@ -1,6 +1,6 @@
 from statsapi import player_stats,player_stat_data
 import pandas as pd
-from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers,ESPNTeamIDtoMLBTeamID, playerid_lookup
+from BackgroundFunctions import CheckPosition, Get_MLB_ID, GetMLBTeamID, rosterPlayers, playerid_lookup
 from baseball_scraper import espn
 from datetime import datetime, time, timedelta
 import sys
@@ -67,7 +67,7 @@ def StartingPitchersPrintoutwRoster(StartDate=Today,EndDate=Today):
         opponent = row['opponent']
         PrintPlayerStats(pitcher)
         print("Opponents: ")
-        RosterBatterStatsPrintout(ESPNTeamIDtoMLBTeamID(opponent))
+        RosterBatterStatsPrintout(GetMLBTeamID(opponent))
         print("Next Pitcher :")
         #print(starters['Name'])
         #PrintPitcherStats(pitcher)

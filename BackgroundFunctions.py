@@ -157,18 +157,6 @@ def rosterPlayers(teamId, rosterType=None, season=datetime.now().year, date=None
 
     return players
 
-def ESPNTeamIDtoMLBTeamID(ESPNTeamID):
-    MLBTeamDataframe = GetTeamKeyMap()
-    MLBRow = MLBTeamDataframe.loc[MLBTeamDataframe['ESPNTEAM']==ESPNTeamID]
-    MLBTeamID = MLBRow['MLBTeamID'].to_string(index=False)
-    return MLBTeamID
-
-def BBRefTeamIDtoMLBTeamID(BBRefTeamID):
-    MLBTeamDataframe = GetTeamKeyMap()
-    MLBRow = MLBTeamDataframe.loc[MLBTeamDataframe['BBREFTEAM']==BBRefTeamID]
-    MLBTeamID = MLBRow['MLBTeamID'].to_string(index=False)
-    return MLBTeamID
-
 def GetMLBTeamID(TeamID):
     '''Totally universal in application; will search any and all team ID names across multiple files
     \n if it isn't found, editing needs to be done to the Team Map'''
@@ -176,6 +164,14 @@ def GetMLBTeamID(TeamID):
     df = df[df.isin([TeamID]).any(axis=1)]
     MLBTeamID = df['MLBTeamID'].to_string(index=False)
     return MLBTeamID
+
+def GetBBRefTeamID(TeamID):
+    '''Totally universal in application; will search any and all team ID names across multiple files
+    \n if it isn't found, editing needs to be done to the Team Map'''
+    df = GetTeamKeyMap()
+    df = df[df.isin([TeamID]).any(axis=1)]
+    BBRefID = df['BBREFTEAM'].to_string(index=False)
+    return BBRefID
 
 def GetTeamKeyMap():
     '''I don't feel like remembering this file name
