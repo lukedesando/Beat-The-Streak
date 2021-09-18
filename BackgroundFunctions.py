@@ -5,9 +5,20 @@ import pandas as pd
 from datetime import date, datetime,timedelta
 from statsapi import get
 
+#Important Variables
+
 Today = date.today()
 Tomorrow = date.today() + timedelta(days=1)
+Yesterday = date.today() + timedelta(days=-1)
+FiveDaysAgo = date.today() + timedelta(days=-5)
 CurrentYear = date.today().year
+
+TodayString = str(Today)
+TomorrowString = str(Tomorrow)
+YesterdayString = str(Yesterday)
+FiveDaysAgoString = str(FiveDaysAgo)
+BeginningofYearString = '2021-01-01'
+Since2017String = '2017-01-01'
 
 
 def num_names(PlayerName):

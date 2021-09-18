@@ -1,14 +1,11 @@
 from statsapi import player_stats,player_stat_data
 import pandas as pd
-from BackgroundFunctions import CheckPosition, Get_MLB_ID, GetMLBTeamID, rosterPlayers, playerid_lookup
+from BackgroundFunctions import CheckPosition, Get_MLB_ID, GetMLBTeamID, rosterPlayers, playerid_lookup,Today
 from baseball_scraper import espn
 from datetime import datetime, time, timedelta
 import sys
 from pandas.core.frame import DataFrame
 
-
-Today = datetime.today()
-Tomorrow = datetime.today() + timedelta(days=1)
 
 #NOTE: Only needed to test if Starting pitchrs
 def GetStartingPitchers(StartDate=Today,EndDate=Today):

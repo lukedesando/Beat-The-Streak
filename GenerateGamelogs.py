@@ -6,16 +6,13 @@ import pandas as pd
 from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers, playerid_lookup
 from baseball_scraper import espn
 from datetime import datetime, timedelta
-Today = datetime.today()
-Tomorrow = datetime.today() + timedelta(days=1)
+from BackgroundFunctions import Today, Tomorrow, CurrentYear
 
 from BackgroundFunctions import Get_BBRef_and_MLB_ID, Check_batting_or_pitching, rosterPlayers
 import pandas as pd
 from functools import partial
-from datetime import date
 
 #PlayerList = ['Casey Mize', "Juan Soto",'Robbie Ray']
-CurrentYear = date.today().year
 #PlayerName = "Juan Soto"
 #batting_or_pitching = "pitching"
 #year = 2021

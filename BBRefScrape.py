@@ -2,9 +2,6 @@
 from BackgroundFunctions import CheckPosition, Check_batting_or_pitching, Get_BBRef_and_MLB_ID, Get_MLB_ID
 import pandas as pd
 from functools import partial
-from datetime import date
-
-CurrentYear = date.today().year
 #PlayerName = "Carlos Correa"
 #batting_or_pitching = "pitching"
 year = 2021

@@ -2,20 +2,7 @@
 from BackgroundFunctions import CheckPosition, Get_BBRef_and_MLB_ID, Get_MLB_ID, Get_BBRefID_From_MLBID, Check_bat_or_pitch
 from baseball_scraper import statcast_batter, statcast_pitcher
 from datetime import date, timedelta
-
-#Important Variables
-
-Today = date.today()
-Tomorrow = date.today() + timedelta(days=1)
-Yesterday = date.today() + timedelta(days=-1)
-FiveDaysAgo = date.today() + timedelta(days=-5)
-CurrentYear = date.today().year
-
-TodayString = str(Today)
-TomorrowString = str(Tomorrow)
-YesterdayString = str(Yesterday)
-FiveDaysAgoString = str(FiveDaysAgo)
-BeginningofYearString = '2021-01-01'
+from BackgroundFunctions import FiveDaysAgoString,TodayString
 
 def statcast_player(PlayerName=None,start_string=FiveDaysAgoString, end_string=TodayString, MLBID=None, position=None):
     "Works by specifying either player name or MLBID"

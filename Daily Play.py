@@ -1,5 +1,5 @@
-from StatcastScrape import BeginningofYearString, print_statcast_player, statcast_player
-from BackgroundFunctions import Tomorrow
+from StatcastScrape import print_statcast_player, statcast_player
+from BackgroundFunctions import Tomorrow,Today
 from BBRefScrape import GetAllSplits
 from PlayerPrintouts import GetStartingPitchers, PrintPlayerStats, StartingPitchersPrintout
 from Matchups import GetMatchupCSV

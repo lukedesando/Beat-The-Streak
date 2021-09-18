@@ -12,23 +12,9 @@ from datetime import date, timedelta
 from statsapi import roster
 from baseball_scraper import espn
 import pandas as pd
-from GenerateGamelogs import GenerateGamelogCSV
+from GenerateGamelogs import GenerateGamelogCSV, GenerateGamelogRosterCSV
 import os
 import fnmatch
-
-Today = date.today()
-Tomorrow = date.today() + timedelta(days=1)
-Yesterday = date.today() + timedelta(days=-1)
-CurrentYear = date.today().year
-ThirtyDaysAgo = date.today() + timedelta(days=-30)
-MyCurrentDirectory = os.path.dirname(os.path.abspath(__file__))
-
-
-TodayString = str(Today)
-TomorrowString = str(Tomorrow)
-YesterdayString = str(Yesterday)
-BeginningofYearString = '2021-01-01'
-ThirtyDaysAgoString = str(ThirtyDaysAgo)
 
 def PrintAllInfo(PlayerName):
     PrintPlayerStats(PlayerName)
