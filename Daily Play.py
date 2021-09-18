@@ -30,5 +30,7 @@ if __name__ == '__main__':
             if PlayerPosition != 'P':
                 batter = PlayerName
                 GetMatchupCSV(batter,pitcher,BatterID = PlayerID,Events=True,StartDateString=Since2017String)
-                #TODO Get Team of pitcher
                 GetBatterTeamGamelogsCSV(batter,pitcherteam,BatterID=PlayerID)
+                #TODO: Gamelogs for multiple years
+                #for loop: year until yearcurrent
+                #append gamelog results to include current ones
