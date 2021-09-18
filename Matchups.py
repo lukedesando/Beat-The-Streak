@@ -49,34 +49,21 @@ def GetBatterTeamGamelogs(BatterName,OpponentTeamID,BatterID=None,year=CurrentYe
 def GetBatterTeamGamelogsCSV(BatterName,OpponentTeamID,BatterID=None,year=CurrentYear):
     Gamelogs = GetBatterTeamGamelogs(BatterName=BatterName,OpponentTeamID=OpponentTeamID,BatterID=BatterID)
     if BatterID == None:
-        BatterMLBID = Get_MLB_ID(BatterName)
+        BatterID = Get_MLB_ID(BatterName)
     MLBTeamID = GetMLBTeamID(OpponentTeamID)
-    CSVFileName = "Matchup B{} T{} {} {} vs. {}.csv".format(BatterMLBID,MLBTeamID,year,BatterName,OpponentTeamID)
+    CSVFileName = "Matchup B{} T{} {} {} vs. {}.csv".format(BatterID,MLBTeamID,year,BatterName,OpponentTeamID)
     Gamelogs.to_csv(CSVFileName,index=False)
 
 
 if __name__ == '__main__':
+    pass
     # # print(GetMatchup("Buster Posey","Blake Snell"))
     # # GetMatchupCSV("Buster Posey","Blake Snell")
     # SanitizedMatchup = GetMatchup("Buster Posey","Blake Snell",Events=True)
     # # FinalBoss = SanitizedMatchup.loc[SanitizedMatchup['events']=='walk']
     # print (SanitizedMatchup)
     # GetMatchupCSV("Buster Posey","Blake Snell",Events=True)
-    StartDate = Today
-    EndDate = Today
-    # StartingPitchers = GetStartingPitchers()
-    starters = espn.ProbableStartersScraper(StartDate, EndDate).scrape()
-    for i, row in starters.iterrows():
-        pitcher = row['Name']
-        opponent = row['opponent']
-        Roster = rosterPlayers(GetMLBTeamID(opponent))
-        for player in Roster:
-            PlayerName = player[0]
-            PlayerID = player[1]
-            PlayerPosition = player[2]
-            if PlayerPosition != 'P':
-                batter = PlayerName
-                GetMatchupCSV(batter,pitcher,BatterID = PlayerID,Events=True,StartDateString=Since2017String)
+
     # BatterList = ["Kris Bryant", "Juan Soto", "Bryce Harper"]
     # Opponent = 'Clayton Kershaw'
     # for BatterName in BatterList:
