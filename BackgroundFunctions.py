@@ -49,9 +49,13 @@ def Player_Dataframe_Fetch(PlayerName):
     namesNum, PlayerName = Name_Check(PlayerName)
     try:
         if namesNum == 3:
-            pname0,pname1,pname2 = PlayerName.split(" ")
-            PlayerFirstName = pname0 + " " + pname1
-            PlayerLastName = pname2
+            if PlayerName == "Tommy La Stella":
+                PlayerFirstName = "Tommy"
+                PlayerLastName = "La Stella"
+            else:
+                pname0,pname1,pname2 = PlayerName.split(" ")
+                PlayerFirstName = pname0 + " " + pname1
+                PlayerLastName = pname2
         else:
             PlayerFirstName,PlayerLastName=PlayerName.split(" ")
         Player_ID_Dataframe = playerid_lookup(PlayerLastName,PlayerFirstName)
