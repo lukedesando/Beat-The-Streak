@@ -42,7 +42,10 @@ def GetBatterTeamGamelogs(BatterName,OpponentTeamID,BatterID=None,year=CurrentYe
         print("Needs Team ID to function")
         return
     BBRefTeamID = GetBBRefTeamID(OpponentTeamID)
-    Gamelogs = GenerateGamelog(BatterName,MLBID=BatterID)
+    try:
+        Gamelogs = GenerateGamelog(BatterName,MLBID=BatterID)
+    except Exception as e:
+        raise e
     RelevantGamelogs = Gamelogs.loc[Gamelogs['Opp']==BBRefTeamID]
     return RelevantGamelogs
 

@@ -47,8 +47,14 @@ def Name_Check(PlayerName):
 #FIXME: calls numnames twice, once through period check and next through calling it
 def Player_Dataframe_Fetch(PlayerName):
     namesNum, PlayerName = Name_Check(PlayerName)
+    troublesome_names = {
+        "Phil Gosselin": ('Philip', "Gosselin")
+    }
     try:
-        if namesNum == 3:
+        if (PlayerName in troublesome_names):
+            PlayerFirstName,PlayerLastName = troublesome_names[PlayerName]
+        # else:
+        elif namesNum == 3:
             pname0,pname1,pname2 = PlayerName.split(" ")
             PlayerFirstName = pname0 + " " + pname1
             PlayerLastName = pname2
@@ -254,6 +260,7 @@ def playerid_reverse_lookup(player_ids, key_type=None):
 
 #Testing Fuctions
 if __name__ == '__main__':
+    # print(Player_Dataframe_Fetch('Phil Gosselin'))
     print(GetMLBTeamID('WAS'))
     print(GetMLBTeamID('WSN'))
     print(GetMLBTeamID('Nationals'))

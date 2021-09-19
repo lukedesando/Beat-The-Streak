@@ -31,4 +31,8 @@ if __name__ == '__main__':
                 batter = PlayerName
                 GetMatchupCSV(batter,pitcher,BatterID = PlayerID,Events=True,StartDateString=Since2017String)
                 #TODO Get Team of pitcher
-                GetBatterTeamGamelogsCSV(batter,pitcherteam,BatterID=PlayerID)
+                try:
+                    GetBatterTeamGamelogsCSV(batter,pitcherteam,BatterID=PlayerID)
+                except Exception as e:
+                    print(e)
+                    continue

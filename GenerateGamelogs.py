@@ -35,10 +35,10 @@ def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYea
 
 def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
     errorID = 'Series([], )'
-    if BBRefID == errorID:
-        return
     if BBRefID == None:
         BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+    if BBRefID == errorID:
+        raise Exception(f'{PlayerName} is missing and Luke needs to create a workaround')
 
     batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(MLBID)
 
