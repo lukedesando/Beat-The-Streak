@@ -69,7 +69,7 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 #Testing Fuctions
 if __name__ == '__main__':
     # #GenerateGamelogRosterCSV(121)
-    PlayerList = ["Clayton Kershaw","Buster Posey","Luke DeSando"]
+    PlayerList = ["Clayton Kershaw","Buster Posey","Luke DeSando", "Tommy La Stella"]
     
     for player in PlayerList:
         GenerateGamelogCSV(player)

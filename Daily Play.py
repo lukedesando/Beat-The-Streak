@@ -36,3 +36,6 @@ if __name__ == '__main__':
                 except Exception as e:
                     print(e)
                     continue
+                #TODO: Gamelogs for multiple years
+                #for loop: year until yearcurrent
+                #append gamelog results to include current ones
