@@ -98,9 +98,7 @@ def Get_BBRef_and_MLB_ID(PlayerName):
     SanitizedIDFrame = Player_ID_Dataframe.loc[Player_ID_Dataframe['mlb_played_last']==2021]
     SanLength = len(SanitizedIDFrame.index)
     if SanLength > 1:
-        print (SanitizedIDFrame)
-        print(str(SanLength) + ' players found with name {}'.format(PlayerName))
-        return errorID, errorID
+        raise Exception(str(SanLength) + ' players found with name {}'.format(PlayerName))
 
     BBRefKey = SanitizedIDFrame['key_bbref']
     MLBKey = SanitizedIDFrame['key_mlbam']
