@@ -3,7 +3,7 @@ import sys
 from pandas.core.frame import DataFrame
 from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
-from BackgroundFunctions import CheckPosition, Get_MLB_ID, rosterPlayers, playerid_lookup
+from BackgroundFunctions import CheckPosition, Get_BBRefID_From_MLBID, Get_MLB_ID, rosterPlayers, playerid_lookup
 from baseball_scraper import espn
 from datetime import datetime, timedelta
 from BackgroundFunctions import Today, Tomorrow, CurrentYear
@@ -33,30 +33,33 @@ def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYea
         print("Returning GameLogs for {}".format(PlayerName))
 
 
-def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
+def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear, position=None):
     errorID = 'Series([], )'
-    if BBRefID == None:
-        BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
-    if MLBID == None:
-        BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
-    if BBRefID == errorID:
-        raise Exception(f'{PlayerName} is missing and Luke needs to create a workaround')
+    try:
+        if BBRefID == None and MLBID == None:
+            BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+        if BBRefID == None and MLBID != None:
+            BBRefID = Get_BBRefID_From_MLBID(MLBID)
+        if BBRefID == errorID:
+            raise Exception(f'{PlayerName} is missing and Luke needs to create a workaround')
+        batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(MLBID)
 
-    batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(MLBID)
-
-    GameLogsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3F\
+        GameLogsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3F\
 id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,batting_or_pitching)
 
-    ## removes the junk out of the gamelogs
-    PlayerGameLogs=pd.read_html(GameLogsURL)[0].query('R != "R"')\
-        .drop('Unnamed: 5', axis=1)\
-        .apply(partial(pd.to_numeric, errors='ignore'))\
-        .reset_index(drop=True)
+        ## removes the junk out of the gamelogs
+        PlayerGameLogs=pd.read_html(GameLogsURL)[0].query('R != "R"')\
+            .drop('Unnamed: 5', axis=1)\
+            .apply(partial(pd.to_numeric, errors='ignore'))\
+            .reset_index(drop=True)
 
-    PlayerGameLogs = PlayerGameLogs[PlayerGameLogs["Tm"].str.contains('|'.join("Player went from"))==False]
-    #PlayerGameLogs[PlayerGameLogs["Tm"].str.contains("Player went from")==False]
+        PlayerGameLogs = PlayerGameLogs[PlayerGameLogs["Tm"].str.contains('|'.join("Player went from"))==False]
+        #PlayerGameLogs[PlayerGameLogs["Tm"].str.contains("Player went from")==False]
+        #TODO: Add MLBID as first column
+        return PlayerGameLogs
+    except Exception as e:
+        raise e
 
-    return PlayerGameLogs
 
 def GenerateGamelogRosterCSV(MLBTeamID = None):
     RosterList = rosterPlayers(MLBTeamID)
