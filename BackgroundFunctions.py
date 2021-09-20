@@ -260,6 +260,9 @@ def playerid_reverse_lookup(player_ids, key_type=None):
     results = results.reset_index().drop('index', axis=1)
     return results
 
+def UpdateChadwick():
+    pass
+
 #Testing Fuctions
 if __name__ == '__main__':
     # print(Player_Dataframe_Fetch('Phil Gosselin'))
