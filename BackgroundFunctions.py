@@ -49,7 +49,8 @@ def Player_Dataframe_Fetch(PlayerName):
     namesNum, PlayerName = Name_Check(PlayerName)
     troublesome_names = {
         "Phil Gosselin": ('Philip', "Gosselin"),
-        "Tommy La Stella": ('Tommy', "La Stella")
+        "Tommy La Stella": ('Tommy', "La Stella"),
+        "Brett de Geus": ('Brett', 'de Geus')
     }
     try:
         if (PlayerName in troublesome_names):
