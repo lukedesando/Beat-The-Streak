@@ -261,7 +261,7 @@ def playerid_reverse_lookup(player_ids, key_type=None):
     return results
 
 def UpdateChadwick():
-    pd.read_csv(r'https://raw.githubusercontent.com/chadwickbureau/register/master/data/people.csv').to_csv('out.csv')
+    pd.read_csv(r'https://raw.githubusercontent.com/chadwickbureau/register/master/data/people.csv').to_csv('Chadwick Bureau People.csv')
 
 #Testing Fuctions
 if __name__ == '__main__':
