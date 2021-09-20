@@ -37,6 +37,8 @@ def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
     errorID = 'Series([], )'
     if BBRefID == None:
         BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+    if MLBID == None:
+        BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
     if BBRefID == errorID:
         raise Exception(f'{PlayerName} is missing and Luke needs to create a workaround')
 
