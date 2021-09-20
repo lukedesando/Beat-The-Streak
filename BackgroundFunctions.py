@@ -261,11 +261,12 @@ def playerid_reverse_lookup(player_ids, key_type=None):
     return results
 
 def UpdateChadwick():
-    pass
+    pd.read_csv(r'https://raw.githubusercontent.com/chadwickbureau/register/master/data/people.csv').to_csv('out.csv')
 
 #Testing Fuctions
 if __name__ == '__main__':
+    UpdateChadwick()
     # print(Player_Dataframe_Fetch('Phil Gosselin'))
-    print(GetMLBTeamID('WAS'))
-    print(GetMLBTeamID('WSN'))
-    print(GetMLBTeamID('Nationals'))
+    # print(GetMLBTeamID('WAS'))
+    # print(GetMLBTeamID('WSN'))
+    # print(GetMLBTeamID('Nationals'))
