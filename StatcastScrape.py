@@ -16,9 +16,8 @@ def statcast_player(PlayerName=None,start_string=BeginningofYearString, end_stri
         StatcastDataframe = statcast_pitcher(start_string,end_string,MLBID)
     else:
         StatcastDataframe = statcast_batter(start_string,end_string,MLBID)
-    if Events == True:
-        StatcastDataframe = StatcastDataframe.dropna(subset=['events'])
-    return StatcastDataframe
+    StatcastDataframeEvents = StatcastDataframe.dropna(subset=['events'])
+    return StatcastDataframe, StatcastDataframeEvents
 
 def print_statcast_player(PlayerName=None, start_string=FiveDaysAgoString, end_string=TodayString, MLBID=None, position=None):
     "Works by specifying either player name or MLBID"

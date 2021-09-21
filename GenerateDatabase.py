@@ -30,20 +30,20 @@ for ind,Team in AllTeams.iterrows():
         print(Player)
         try:
             if Player[2] == 'P':
-                PitcherStatcast = statcast_player(Player[0],MLBID=Player[1])
+                PitcherStatcast, PitcherEvents = statcast_player(Player[0],MLBID=Player[1])
                 PitcherGamelogs = GenerateGamelog(Player[0],MLBID=Player[1])
-                PitcherEvents = statcast_player(Player[0],Events=True,MLBID=Player[1])
+                # PitcherEvents = statcast_player(Player[0],Events=True,MLBID=Player[1])
                 PStatcastDatabase = PStatcastDatabase.append(PitcherStatcast)
                 PGamelogsDatabase = PGamelogsDatabase.append(PitcherGamelogs)
                 PEventsDatabase = PEventsDatabase.append(PitcherEvents)
                 pass
             else:
-                PitcherStatcast = statcast_player(Player[0],MLBID=Player[1])
-                PitcherGamelogs = GenerateGamelog(Player[0],MLBID=Player[1])
-                PitcherEvents = statcast_player(Player[0],Events=True,MLBID=Player[1])
-                BStatcastDatabase = BStatcastDatabase.append(PitcherStatcast)
-                BGamelogsDatabase = BGamelogsDatabase.append(PitcherGamelogs)
-                BEventsDatabase = BEventsDatabase.append(PitcherEvents)
+                BatterStatcast,BatterEvents = statcast_player(Player[0],MLBID=Player[1])
+                BatterGamelogs = GenerateGamelog(Player[0],MLBID=Player[1])
+                # BatterEvents = statcast_player(Player[0],Events=True,MLBID=Player[1])
+                BStatcastDatabase = BStatcastDatabase.append(BatterStatcast)
+                BGamelogsDatabase = BGamelogsDatabase.append(BatterGamelogs)
+                BEventsDatabase = BEventsDatabase.append(BatterEvents)
         except Exception as e:
             print(e)
             TroublesomeNameDatabase = TroublesomeNameDatabase.append([str(e)])
