@@ -43,7 +43,7 @@ def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear, 
         if BBRefID == None and MLBID != None:
             BBRefID = Get_BBRefID_From_MLBID(MLBID)
         if BBRefID == errorID:
-            raise Exception(f'{PlayerName} is missing and Luke needs to create a workaround')
+            raise Exception(f'{PlayerName} is missing')
         batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(MLBID)
 
         GameLogsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3F\
