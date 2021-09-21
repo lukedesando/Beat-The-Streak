@@ -1,6 +1,6 @@
 ## imports
 from pandas.core.indexes.base import Index
-from BackgroundFunctions import CheckPosition, Check_batting_or_pitching, Get_BBRef_and_MLB_ID, Get_MLB_ID
+from BackgroundFunctions import CheckPosition, Check_batting_or_pitching, Get_BBRef_and_MLB_ID, Get_MLB_ID,Get_BBRefID_From_MLBID
 import pandas as pd
 from functools import partial
 #PlayerName = "Carlos Correa"
@@ -40,11 +40,10 @@ def GetAllSplits(PlayerName=None,BBRefID=None,MLBID=None,batting_or_pitching=Non
     PitcherValueList=['div_total_extra','div_hmvis_extra','div_stad_extra']):
     "Specify if you will use the player's name or the BBRefID"
 
-    if BBRefID == None:
+    if BBRefID == None and MLBID == None:
         BBRefID, MLBID = Get_BBRef_and_MLB_ID(PlayerName)
-    
-    if MLBID == None:
-        MLBID = Get_MLB_ID(PlayerName)
+    elif BBRefID == None and MLBID != None:
+        BBRefID = Get_BBRefID_From_MLBID(MLBID)
 
     if position == None:
         position = CheckPosition(MLBID)
