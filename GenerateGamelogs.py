@@ -21,8 +21,10 @@ from functools import partial
 
 #XXX Reduce testing time by a few seconds by not going through the get ID function
 def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear):
-    if BBRefID == None:
+    if BBRefID == None and MLBID == None:
         BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+    if BBRefID == None and MLBID != None:
+        BBRefID = Get_BBRefID_From_MLBID(MLBID)
     PlayerGameLogs = GenerateGamelog(PlayerName,BBRefID,MLBID,year)
     if PlayerGameLogs is None:
         print("Problem finding GameLogs for {}".format(PlayerName))
@@ -56,6 +58,8 @@ id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,b
         PlayerGameLogs = PlayerGameLogs[PlayerGameLogs["Tm"].str.contains('|'.join("Player went from"))==False]
         #PlayerGameLogs[PlayerGameLogs["Tm"].str.contains("Player went from")==False]
         #TODO: Add MLBID as first column
+        PlayerGameLogs["PlayerName"] = PlayerName
+        PlayerGameLogs["MLBID"] = MLBID
         return PlayerGameLogs
     except Exception as e:
         raise e
@@ -74,10 +78,11 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 #Testing Fuctions
 if __name__ == '__main__':
     # #GenerateGamelogRosterCSV(121)
-    PlayerList = ["Clayton Kershaw","Buster Posey","Luke DeSando", "Tommy La Stella"]
+    PlayerList = ["Buster Posey","Luke DeSando"]
     
     for player in PlayerList:
         GenerateGamelogCSV(player)
+        # GenerateGamelogCSV(player)
 
     # GenerateGamelogRosterCSV(ESPNTeamIDtoMLBTeamID('WSH'))
 
