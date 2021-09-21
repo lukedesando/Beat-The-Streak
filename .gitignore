@@ -13,5 +13,5 @@
 .google-cookie
 *.cpython-38.pyc
 
-# CSV Files I don't want Uploaded
-*.csv
+# # CSV Files I don't want Uploaded
+# *.csv
