@@ -54,10 +54,10 @@ id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,b
             .drop('Unnamed: 5', axis=1)\
             .apply(partial(pd.to_numeric, errors='ignore'))\
             .reset_index(drop=True)
-
-        PlayerGameLogs = PlayerGameLogs[PlayerGameLogs["Tm"].str.contains('|'.join("Player went from"))==False]
+        
+        PlayerGameLogs = PlayerGameLogs[PlayerGameLogs["Tm"].str.contains('|'.join("went from"))==False]
         #PlayerGameLogs[PlayerGameLogs["Tm"].str.contains("Player went from")==False]
-        #TODO: Add MLBID as first column
+        #TODO: Add MLBID as first column]
         PlayerGameLogs["PlayerName"] = PlayerName
         PlayerGameLogs["MLBID"] = MLBID
         return PlayerGameLogs
@@ -78,10 +78,18 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 #Testing Fuctions
 if __name__ == '__main__':
     # #GenerateGamelogRosterCSV(121)
-    PlayerList = ["Buster Posey","Luke DeSando"]
-    
-    for player in PlayerList:
-        GenerateGamelogCSV(player)
+    # PlayerList = ["Bryce Harper","Luke DeSando"]
+    Logs = GenerateGamelog("Bryce Harper")#, BBRefID='harpebr03')
+    print(Logs)
+    GenerateGamelogCSV("Bryce Harper")
+    #https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dharpebr03%26t%3Db%26year%3D2021&div=div_batting_gamelogs
+    #https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dharpebr03%26t%3Db%26year%3D2021&div=div_batting_gamelogs
+
+
+    # GenerateGamelogCSV("Bryce Harper", BBRefID='harpebr03')
+    # for player in PlayerList:
+    #     print(GenerateGamelog(player))
+    #     GenerateGamelogCSV(player)
         # GenerateGamelogCSV(player)
 
     # GenerateGamelogRosterCSV(ESPNTeamIDtoMLBTeamID('WSH'))
