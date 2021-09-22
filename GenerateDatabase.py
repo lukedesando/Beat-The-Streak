@@ -1,13 +1,15 @@
 import numpy
 from BackgroundFunctions import Get_MLB_ID, GetTeamKeyMap, rosterPlayers
 from StatcastScrape import statcast_player
-from GenerateGamelogs import GenerateGamelog
+from GenerateGamelogs import GenerateGamelog, GenerateGamelogs
 import pandas as pd
+from BackgroundFunctions import Since2017String, Since2018String, Since2019String
 
 # def GenerateDatabase(DatabaseFrame: DataFrame, AppendFrame: DataFrame):
 #     DatabaseFrame = DatabaseFrame.append(AppendFrame)
 #     return DatabaseFrame
 
+dbyear = 2018
 
 PGamelogsDatabase = pd.DataFrame()
 PStatcastDatabase = pd.DataFrame()
@@ -30,20 +32,21 @@ for ind,Team in AllTeams.iterrows():
         print(Player)
         try:
             if Player[2] == 'P':
-                PitcherStatcast, PitcherEvents = statcast_player(Player[0],MLBID=Player[1])
-                PitcherGamelogs = GenerateGamelog(Player[0],MLBID=Player[1])
-                # PitcherEvents = statcast_player(Player[0],Events=True,MLBID=Player[1])
+                PitcherStatcast, PitcherEvents = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
+                PitcherGamelogs = GenerateGamelogs(Player[0],MLBID=Player[1],position=Player[2],year=dbyear)
+
                 PStatcastDatabase = PStatcastDatabase.append(PitcherStatcast)
-                PGamelogsDatabase = PGamelogsDatabase.append(PitcherGamelogs)
                 PEventsDatabase = PEventsDatabase.append(PitcherEvents)
-                pass
+                PGamelogsDatabase = PGamelogsDatabase.append(PitcherGamelogs)
+
             else:
-                BatterStatcast,BatterEvents = statcast_player(Player[0],MLBID=Player[1])
-                BatterGamelogs = GenerateGamelog(Player[0],MLBID=Player[1])
-                # BatterEvents = statcast_player(Player[0],Events=True,MLBID=Player[1])
+                BatterStatcast,BatterEvents = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
+                BatterGamelogs = GenerateGamelogs(Player[0],MLBID=Player[1],position=Player[2],year=dbyear)
+
                 BStatcastDatabase = BStatcastDatabase.append(BatterStatcast)
-                BGamelogsDatabase = BGamelogsDatabase.append(BatterGamelogs)
                 BEventsDatabase = BEventsDatabase.append(BatterEvents)
+                BGamelogsDatabase = BGamelogsDatabase.append(BatterGamelogs)
+
         except Exception as e:
             print(e)
             TroublesomeNameDatabase = TroublesomeNameDatabase.append([str(e)])
