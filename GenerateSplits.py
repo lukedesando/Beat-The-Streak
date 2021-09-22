@@ -1,6 +1,6 @@
 ## imports
 from pandas.core.indexes.base import Index
-from BackgroundFunctions import CheckPosition, Check_batting_or_pitching, Get_BBRef_and_MLB_ID, Get_MLB_ID,Get_BBRefID_From_MLBID
+from BackgroundFunctions import CheckPosition, Get_BBRef_and_MLB_ID, Get_BBRefID_From_MLBID
 import pandas as pd
 from functools import partial
 #PlayerName = "Carlos Correa"
