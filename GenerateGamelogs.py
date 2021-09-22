@@ -43,7 +43,7 @@ def GenerateGamelogs(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear,
             gmlog = GenerateGamelog(PlayerName,BBRefID,MLBID,yr,position)
             AllGMlog = AllGMlog.append(gmlog)
         except Exception as e:
-            continue
+            raise e
     return AllGMlog
 
 def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear,position=None):
