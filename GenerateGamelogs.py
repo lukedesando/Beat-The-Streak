@@ -1,11 +1,8 @@
 ## imports
 import sys
 from pandas.core.frame import DataFrame
-from statsapi import player_stats,player_stat_data,lookup_player
 import pandas as pd
 from BackgroundFunctions import CheckPosition, Get_BBRefID_From_MLBID, Get_MLB_ID, rosterPlayers, playerid_lookup
-from baseball_scraper import espn
-from datetime import datetime, timedelta
 from BackgroundFunctions import Today, Tomorrow, CurrentYear
 
 from BackgroundFunctions import Get_BBRef_and_MLB_ID, Check_batting_or_pitching, rosterPlayers
@@ -34,8 +31,22 @@ def GenerateGamelogCSV(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYea
         PlayerGameLogs.to_csv("GameLogs "+ MLBID + " " + PlayerName + ".csv",index=False)
         print("Returning GameLogs for {}".format(PlayerName))
 
+def GenerateGamelogs(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear, position=None):
+    AllGMlog = pd.DataFrame()
+    
+    for yr in range(year,CurrentYear+1):
+        try:
+            if BBRefID == None and MLBID == None:
+                BBRefID,MLBID = Get_BBRef_and_MLB_ID(PlayerName)
+            if BBRefID == None and MLBID != None:
+                BBRefID = Get_BBRefID_From_MLBID(MLBID)
+            gmlog = GenerateGamelog(PlayerName,BBRefID,MLBID,yr,position)
+            AllGMlog = AllGMlog.append(gmlog)
+        except Exception as e:
+            continue
+    return AllGMlog
 
-def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear, position=None):
+def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear,position=None):
     errorID = 'Series([], )'
     try:
         if BBRefID == None and MLBID == None:
@@ -44,7 +55,8 @@ def GenerateGamelog(PlayerName = None,BBRefID=None,MLBID=None,year=CurrentYear, 
             BBRefID = Get_BBRefID_From_MLBID(MLBID)
         if BBRefID == errorID:
             raise Exception(f'{PlayerName} is missing')
-        batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(MLBID)
+        
+        batting_or_pitching, bat_or_pitch,b_or_p = Check_batting_or_pitching(MLBID,position)
 
         GameLogsURL = '''https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3F\
 id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,batting_or_pitching)
@@ -60,6 +72,7 @@ id%3D{}%26t%3D{}%26year%3D{}&div=div_{}_gamelogs'''.format(BBRefID,b_or_p,year,b
         #TODO: Add MLBID as first column]
         PlayerGameLogs["PlayerName"] = PlayerName
         PlayerGameLogs["MLBID"] = MLBID
+        PlayerGameLogs["Year"] = year
         return PlayerGameLogs
     except Exception as e:
         raise e
@@ -79,9 +92,10 @@ def GenerateGamelogRosterCSV(MLBTeamID = None):
 if __name__ == '__main__':
     # #GenerateGamelogRosterCSV(121)
     # PlayerList = ["Bryce Harper","Luke DeSando"]
-    Logs = GenerateGamelog("Bryce Harper")#, BBRefID='harpebr03')
+    Logs = GenerateGamelogs("Bryce Harper",year=2019)#, BBRefID='harpebr03')
     print(Logs)
-    GenerateGamelogCSV("Bryce Harper")
+    Logs.to_csv("Bryce Harper.csv")
+    GenerateGamelogCSV("Bryce Harper", year=2019)
     #https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dharpebr03%26t%3Db%26year%3D2021&div=div_batting_gamelogs
     #https://widgets.sports-reference.com/wg.fcgi?css=1&site=br&url=%2Fplayers%2Fgl.fcgi%3Fid%3Dharpebr03%26t%3Db%26year%3D2021&div=div_batting_gamelogs
 
