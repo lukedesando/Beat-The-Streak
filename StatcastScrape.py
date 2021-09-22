@@ -5,7 +5,7 @@ from baseball_scraper import statcast_batter, statcast_pitcher
 from datetime import date, timedelta
 from BackgroundFunctions import FiveDaysAgoString,TodayString, BeginningofYearString
 
-def statcast_player(PlayerName=None,start_string=BeginningofYearString, end_string=TodayString, MLBID=None, position=None, Events=False):
+def statcast_player(PlayerName=None,start_string=BeginningofYearString, end_string=TodayString, MLBID=None, position=None):
     "Works by specifying either player name or MLBID"
     StatcastDataframe = DataFrame()
     if MLBID == None:
