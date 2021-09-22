@@ -19,6 +19,8 @@ YesterdayString = str(Yesterday)
 FiveDaysAgoString = str(FiveDaysAgo)
 BeginningofYearString = '2021-01-01'
 Since2017String = '2017-01-01'
+Since2018String = '2018-01-01'
+Since2019String = '2019-01-01'
 
 
 def num_names(PlayerName):
@@ -132,9 +134,14 @@ def Find_Fangraph_ID(player_name):
 
 #FIXME: Need input of MLBID to run faster
 #FIXME: Need position, because batters who pitched in a game come up as pitchers
-def Check_batting_or_pitching(MLBID,year=CurrentYear):
+def Check_batting_or_pitching(MLBID,position=None):
     '''Returns 3 values'''
-    
+    if position != None:
+        if position == 'P':
+            return "pitching","pitch","p"
+        else:
+            return "batting","bat","b"
+
     if CheckPosition(MLBID) == 'P':
         return "pitching","pitch","p"
     else:
