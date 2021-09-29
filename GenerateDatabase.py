@@ -32,16 +32,18 @@ for ind,Team in AllTeams.iterrows():
         print(Player)
         try:
             if Player[2] == 'P':
-                PitcherStatcast, PitcherEvents = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
+                PitcherStatcast = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
                 PitcherGamelogs = GenerateGamelogs(Player[0],MLBID=Player[1],position=Player[2],year=dbyear)
+                PitcherEvents = PitcherStatcast.dropna(subset=['events'])
 
                 PStatcastDatabase = PStatcastDatabase.append(PitcherStatcast)
                 PEventsDatabase = PEventsDatabase.append(PitcherEvents)
                 PGamelogsDatabase = PGamelogsDatabase.append(PitcherGamelogs)
 
             else:
-                BatterStatcast,BatterEvents = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
+                BatterStatcast = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
                 BatterGamelogs = GenerateGamelogs(Player[0],MLBID=Player[1],position=Player[2],year=dbyear)
+                BatterEvents = BatterStatcast.dropna(subset=['events'])
 
                 BStatcastDatabase = BStatcastDatabase.append(BatterStatcast)
                 BEventsDatabase = BEventsDatabase.append(BatterEvents)

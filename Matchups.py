@@ -3,24 +3,24 @@ from BackgroundFunctions import Get_MLB_ID, GetBBRefTeamID, GetMLBTeamID, roster
 from BackgroundFunctions import Today, BeginningofYearString, CurrentYear, Since2017String
 from StatcastScrape import statcast_player
 from PlayerPrintouts import GetStartingPitchers, RosterBatterStatsPrintout,PrintPlayerStats
-from baseball_scraper import espn
+# from baseball_scraper import espn
 
 #TODO: Get Buster Posey's numbers off Giants in 2021
 
-def GetMatchup(BatterName, PitcherName, BatterID = None, PitcherID = None, Events = False, StartDateString=BeginningofYearString):
+def GetMatchup(BatterName, PitcherName, BatterID = None, PitcherID = None, Events = True, StartDateString=BeginningofYearString):
     '''Returns a dataframe with all pitches thrown between two players in the current year
     \n Batter first. If you want to only see the events, set Events = True'''
     if BatterID == None:
         BatterID = Get_MLB_ID(BatterName)
     if PitcherID == None:
         PitcherID = Get_MLB_ID(PitcherName)
-    PlayerDataFrame = statcast_player(BatterID,StartDateString)
+    PlayerDataFrame = statcast_player(BatterID,StartDateString,position="B",Events=Events)
     MatchupFrame = PlayerDataFrame.loc[PlayerDataFrame['pitcher']==PitcherID]
-    if Events == True:
-        MatchupFrame = MatchupFrame.dropna(subset=['events'])
+    # if Events == True:
+    #     MatchupFrame = MatchupFrame.dropna(subset=['events'])
     return MatchupFrame
 
-def GetMatchupCSV(BatterName = None,PitcherName = None,BatterID = None,PitcherID = None,Events=False,StartDateString=BeginningofYearString):
+def GetMatchupCSV(BatterName = None,PitcherName = None,BatterID = None,PitcherID = None,Events=True,StartDateString=BeginningofYearString):
     "Batter first"
     StartDateString : str
     if BatterID == None:
@@ -59,6 +59,14 @@ def GetBatterTeamGamelogsCSV(BatterName,OpponentTeamID,BatterID=None,year=Curren
 
 
 if __name__ == '__main__':
+    # batterlist = ['Corey Seager','David Fletcher','Justin Turner']
+    # pitcherlist = ['Ryan Weathers', 'Taylor Hearn', 'Ryan Weathers']
+    # for batter, pitcher in zip(batterlist, pitcherlist):
+    #     GetMatchupCSV(batter,pitcher)
+    # print(Get_MLB_ID("Ryan Weathers"))
+    # print(Get_MLB_ID("Justin Turner"))
+    GetMatchupCSV("Corey Seager","Ryan Weathers",608369,677960)
+    GetMatchupCSV("Justin Turner","Ryan Weathers",608369,457759)
     pass
     # # print(GetMatchup("Buster Posey","Blake Snell"))
     # # GetMatchupCSV("Buster Posey","Blake Snell")
