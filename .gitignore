@@ -14,4 +14,4 @@
 *.cpython-38.pyc
 
 # # CSV Files I don't want Uploaded
-# *.csv
+*.csv
