@@ -3,13 +3,14 @@ from BackgroundFunctions import Get_MLB_ID, GetTeamKeyMap, rosterPlayers
 from StatcastScrape import statcast_player
 from GenerateGamelogs import GenerateGamelog, GenerateGamelogs
 import pandas as pd
-from BackgroundFunctions import Since2017String, Since2018String, Since2019String
+from BackgroundFunctions import Since2017String, Since2018String
 
 # def GenerateDatabase(DatabaseFrame: DataFrame, AppendFrame: DataFrame):
 #     DatabaseFrame = DatabaseFrame.append(AppendFrame)
 #     return DatabaseFrame
 
 dbyear = 2018
+SinceYearString = Since2018String
 
 PGamelogsDatabase = pd.DataFrame()
 PStatcastDatabase = pd.DataFrame()
@@ -32,7 +33,7 @@ for ind,Team in AllTeams.iterrows():
         print(Player)
         try:
             if Player[2] == 'P':
-                PitcherStatcast = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
+                PitcherStatcast = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=SinceYearString)
                 PitcherGamelogs = GenerateGamelogs(Player[0],MLBID=Player[1],position=Player[2],year=dbyear)
                 PitcherEvents = PitcherStatcast.dropna(subset=['events'])
 
@@ -41,7 +42,7 @@ for ind,Team in AllTeams.iterrows():
                 PGamelogsDatabase = PGamelogsDatabase.append(PitcherGamelogs)
 
             else:
-                BatterStatcast = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=Since2018String)
+                BatterStatcast = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=SinceYearString)
                 BatterGamelogs = GenerateGamelogs(Player[0],MLBID=Player[1],position=Player[2],year=dbyear)
                 BatterEvents = BatterStatcast.dropna(subset=['events'])
 
