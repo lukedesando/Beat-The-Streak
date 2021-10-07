@@ -1,13 +1,16 @@
+from os import name
 import numpy
 from BackgroundFunctions import Get_MLB_ID, GetTeamKeyMap, rosterPlayers
 from StatcastScrape import statcast_player
 from GenerateGamelogs import GenerateGamelog, GenerateGamelogs
 import pandas as pd
-from BackgroundFunctions import Since2017String, Since2018String
+from BackgroundFunctions import Since2017String, Since2018String, UpdateChadwick
 
 # def GenerateDatabase(DatabaseFrame: DataFrame, AppendFrame: DataFrame):
 #     DatabaseFrame = DatabaseFrame.append(AppendFrame)
 #     return DatabaseFrame
+if __name__ == '__main__':
+    UpdateChadwick()
 
 dbyear = 2018
 SinceYearString = Since2018String
