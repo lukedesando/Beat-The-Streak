@@ -1,6 +1,6 @@
 import csv
 from pandas.core.frame import DataFrame
-from statsapi import player_stats,player_stat_data,lookup_player, roster,schedule
+from statsapi import player_stats,player_stat_data, lookup_player, roster,schedule
 import pandas as pd
 from datetime import date, datetime,timedelta
 from statsapi import get
@@ -48,6 +48,7 @@ def Name_Check(PlayerName):
 
 #FIXME: calls numnames twice, once through period check and next through calling it
 def Player_Dataframe_Fetch(PlayerName):
+    "Sanitizes Player Names before PlayerID Lookup"
     namesNum, PlayerName = Name_Check(PlayerName)
     troublesome_names = {
         "Phil Gosselin": ('Philip', "Gosselin"),
@@ -77,6 +78,17 @@ def Get_MLB_ID(PlayerName):
         return PlayerID
     except IndexError as e:
         print (f'Problem searching for {PlayerName}\nerror: {e}')
+
+def Get_Player_Name(MLBID):
+    "Return Lastname, Firstname from MLBID"
+    try:
+        PlayerJson = lookup_player(MLBID)
+        # print(PlayerJson)
+        PlayerName = PlayerJson[0]['fullName']
+        return PlayerName
+    except IndexError as e:
+        print (f'Problem searching for MLBID num: {MLBID}\nerror: {e}')
+
     
 def CheckPosition(PlayerNameorMLBID):
     try:
@@ -270,7 +282,11 @@ def UpdateChadwick():
 
 #Testing Fuctions
 if __name__ == '__main__':
-    UpdateChadwick()
+    # UpdateChadwick()
+    print(Get_MLB_ID('Buster Posey'))
+    print(Get_Player_Name(457763))
+    print(Get_Player_Name(445213))
+
     # print(Player_Dataframe_Fetch('Phil Gosselin'))
     # print(GetMLBTeamID('WAS'))
     # print(GetMLBTeamID('WSN'))
