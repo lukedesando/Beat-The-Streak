@@ -282,10 +282,10 @@ def UpdateChadwick():
 
 #Testing Fuctions
 if __name__ == '__main__':
-    # UpdateChadwick()
+    # UpdateChadwick() #FIXME need to put that as an init file
     print(Get_MLB_ID('Buster Posey'))
-    print(Get_Player_Name(457763))
-    print(Get_Player_Name(445213))
+    #print(Get_Player_Name(457763))
+    #print(Get_Player_Name(445213))
 
     # print(Player_Dataframe_Fetch('Phil Gosselin'))
     # print(GetMLBTeamID('WAS'))
