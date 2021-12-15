@@ -227,7 +227,7 @@ def GetTeamKeyMap():
     MLBTeamDataframe = pd.read_csv('MLB Team Map.csv')
     return MLBTeamDataframe
 
-def get_lookup_table():
+def get_lookup_table(LowerBoolean = False):
     # print('Gathering player lookup table. This may take a moment.')
     # url = "https://raw.githubusercontent.com/chadwickbureau/register/master/data/people.csv"
     s="Chadwick Bureau People.csv"
@@ -237,8 +237,9 @@ def get_lookup_table():
     cols_to_keep = ['name_last','name_first','key_mlbam', 'key_retro', 'key_bbref', 'key_fangraphs', 'mlb_played_first','mlb_played_last']
     table = table[cols_to_keep]
     #make these lowercase to avoid capitalization mistakes when searching
-    table['name_last'] = table['name_last'].str.lower()
-    table['name_first'] = table['name_first'].str.lower()
+    if LowerBoolean == True:
+        table['name_last'] = table['name_last'].str.lower()
+        table['name_first'] = table['name_first'].str.lower()
     # Pandas cannot handle NaNs in integer columns. We need IDs to be ints for successful queries in statcast, etc. 
     # Workaround: replace ID NaNs with -1, then convert columns to integers. User will have to understand that -1 is not a valid ID. 
     table[['key_mlbam', 'key_fangraphs']] = table[['key_mlbam', 'key_fangraphs']].fillna(-1)
@@ -251,7 +252,7 @@ def playerid_lookup(last, first=None):
     last = last.lower()
     if first:
         first = first.lower()
-    table = get_lookup_table()
+    table = get_lookup_table(True)
     if first is None:
         results = table.loc[table['name_last']==last]
     else:
@@ -274,7 +275,8 @@ def playerid_reverse_lookup(player_ids, key_type=None):
     :rtype: :class:`pandas.core.frame.DataFrame`
     """
     key_types = ('mlbam', 'retro', 'bbref', 'fangraphs', )
-
+    if not isinstance(player_ids,list):
+        player_ids = [player_ids]
     if not key_type:
         key_type = key_types[0]     # default is "mlbam" if key_type not provided
     elif key_type not in key_types:
@@ -289,6 +291,13 @@ def playerid_reverse_lookup(player_ids, key_type=None):
     results = results.reset_index().drop('index', axis=1)
     return results
 
+def Chadwick_Get_Name_Last_First(MLBID):
+    playerFrame = playerid_reverse_lookup(MLBID)
+    last = playerFrame.at[0,'name_last']
+    first = playerFrame.at[0,'name_first']
+    playerString = last + ', ' + first
+    return playerString
+
 def UpdateChadwick():
     pd.read_csv(r'https://raw.githubusercontent.com/chadwickbureau/register/master/data/people.csv').to_csv('Chadwick Bureau People.csv')
 
@@ -296,6 +305,11 @@ def UpdateChadwick():
 if __name__ == '__main__':
     # UpdateChadwick() #FIXME need to put that as an init file
     
+    print(playerid_lookup('posey','buster'))
+    #print(playerid_reverse_lookup(457763))
+    print(Chadwick_Get_Name_Last_First(457763))
+    print(Chadwick_Get_Name_Last_First(592346))
+
     #Buster Posey
     print(Get_Player_Name_Last_First(457763))
     print(Get_Player_Name(457763))
