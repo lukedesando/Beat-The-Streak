@@ -80,15 +80,27 @@ def Get_MLB_ID(PlayerName):
         print (f'Problem searching for {PlayerName}\nerror: {e}')
 
 def Get_Player_Name(MLBID):
-    "Return Lastname, Firstname from MLBID"
+    "Return FirstName LastName from MLBID"
     try:
         PlayerJson = lookup_player(MLBID)
         # print(PlayerJson)
-        PlayerName = PlayerJson[0]['fullName']
+        PlayerFirstName = PlayerJson[0]['useName']
+        PlayerLastName = PlayerJson[0]['lastName']
+        PlayerName = PlayerFirstName + " " + PlayerLastName
         return PlayerName
     except IndexError as e:
         print (f'Problem searching for MLBID num: {MLBID}\nerror: {e}')
 
+def Get_Player_Name_Last_First(MLBID):
+    try:
+        PlayerJson = lookup_player(MLBID)
+        # print(PlayerJson)
+        PlayerFirstName = PlayerJson[0]['useName']
+        PlayerLastName = PlayerJson[0]['lastName']
+        PlayerName = PlayerLastName + ', ' + PlayerFirstName
+        return PlayerName
+    except IndexError as e:
+        print (f'Problem searching for MLBID num: {MLBID}\nerror: {e}')
     
 def CheckPosition(PlayerNameorMLBID):
     try:
@@ -283,7 +295,19 @@ def UpdateChadwick():
 #Testing Fuctions
 if __name__ == '__main__':
     # UpdateChadwick() #FIXME need to put that as an init file
-    print(Get_MLB_ID('Buster Posey'))
+    
+    #Buster Posey
+    print(Get_Player_Name_Last_First(457763))
+    print(Get_Player_Name(457763))
+
+    #Chi Chi Gonzalez
+    print(Get_Player_Name_Last_First(592346))
+    print(Get_Player_Name(592346))
+
+    #Clayton Kershaw
+    print(Get_Player_Name_Last_First(477132))
+    print(Get_Player_Name(477132))
+
     #print(Get_Player_Name(457763))
     #print(Get_Player_Name(445213))
 
