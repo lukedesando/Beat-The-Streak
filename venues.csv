@@ -1,0 +1,34 @@
+venue,venue_id,venue_w_chan_loc,location,home_team_name,home_team_id,home_code,home_division,home_league_id,home_name_abbrev,home_sport_code,roof,longitude,latitude,altitude,direction
+Tokyo Dome,2397,JAXX0085,"Tokyo, JP",,,,,,,,dome,139.751892,35.705588,8,
+Nationals Park,3309,USDC0001,"Washington, DC",Nationals,120,was,E,104,WSH,mlb,open,-77.007716,38.872576,2,29
+Yankee Stadium,3313,USNY0172,"Bronx, NY",Yankees,147,nya,E,103,NYY,mlb,open,-73.926949,40.829489,4,75
+Miller Park,32,USWI0455,"Milwaukee, WI",Brewers,158,mil,C,104,MIL,mlb,roof,-87.971642,43.028436,188,130
+Citizens Bank Park,2681,USPA1276,"Philadelphia, PA",Phillies,143,phi,E,104,PHI,mlb,open,-75.166592,39.905584,-2,9
+Rogers Centre,14,CAXX0504,"Toronto, ON",Blue Jays,141,tor,E,103,TOR,mlb,roof,-79.389181,43.641682,83,
+Tropicana Field,12,USFL0438,"St. Petersburg, FL",Rays,139,tba,E,103,TB,mlb,dome,-82.653453,27.768110,14,
+Globe Life Park in Arlington,13,USTX0045,"Arlington, TX",Rangers,140,tex,W,103,TEX,mlb,open,-97.082997,32.751593,165,135
+Oakland Coliseum,10,USCA0791,"Oakland, CA",Athletics,133,oak,W,103,OAK,mlb,open,-122.201047,37.751327,0,56
+Great American Ball Park,2602,USOH0188,"Cincinnati, OH",Reds,113,cin,C,104,CIN,mlb,open,-84.507036,39.097474,149,123
+Petco Park,2680,USCA0982,"San Diego, CA",Padres,135,sdn,W,104,SD,mlb,open,-117.157074,32.707063,5,0
+Marlins Park,4169,USFL0316,"Miami, FL",Marlins,146,mia,E,104,MIA,mlb,roof,-80.219845,25.778324,2,129
+Target Field,3312,USMN0503,"Minneapolis, MN",Twins,142,min,C,103,MIN,mlb,open,-93.278279,44.981717,252,90
+Dodger Stadium,22,USCA0638,"Los Angeles, CA",Dodgers,119,lan,W,104,LAD,mlb,open,-118.240228,34.073421,153,25
+Kauffman Stadium,7,USMO0460,"Kansas City, MO",Royals,118,kca,C,103,KC,mlb,open,-94.480809,39.051246,261,47
+T-Mobile Park,680,USWA0395,"Seattle, WA",Mariners,136,sea,W,103,SEA,mlb,roof,-122.332907,47.591124,5,49
+PNC Park,31,USPA1290,"Pittsburgh, PA",Pirates,134,pit,C,104,PIT,mlb,open,-80.006180,40.447063,221,116
+Progressive Field,5,USOH0195,"Cleveland, OH",Indians,114,cle,C,103,CLE,mlb,open,-81.685285,41.495545,199,359
+SunTrust Park,4705,,"Atlanta, GA",Braves,144,atl,E,104,ATL,mlb,open,-84.467987,33.891127,300,149
+Comerica Park,2394,USMI0229,"Detroit, MI",Tigers,116,det,C,103,DET,mlb,open,-83.048970,42.339451,176,151
+Citi Field,3289,USNY0504,"Flushing, NY",Mets,121,nyn,E,104,NYM,mlb,open,-73.846030,40.756587,5,14
+Guaranteed Rate Field,4,USIL0225,"Chicago, IL",White Sox,145,cha,C,103,CWS,mlb,open,-87.634224,41.830187,181,127
+Oriole Park at Camden Yards,2,USMD0018,"Baltimore, MD",Orioles,110,bal,E,103,BAL,mlb,open,-76.621913,39.283514,11,31
+Busch Stadium,2889,USMO0787,"St. Louis, MO",Cardinals,138,sln,C,104,STL,mlb,open,-90.193387,38.622408,134,62
+Angel Stadium,1,USCA0027,"Anaheim, CA",Angels,108,ana,W,103,LAA,mlb,open,-117.883171,33.799922,44,44
+Coors Field,19,USCO0105,"Denver, CO",Rockies,115,col,W,104,COL,mlb,open,-104.994199,39.755719,1581,5
+Oracle Park,2395,USCA0987,"San Francisco, CA",Giants,137,sfn,W,104,SF,mlb,open,-122.389911,37.778369,3,85
+Chase Field,15,USAZ0166,"Phoenix, AZ",D-backs,109,ari,W,104,ARI,mlb,roof,-112.066707,33.445001,324,0
+Minute Maid Park,2392,USTX0617,"Houston, TX",Astros,117,hou,W,103,HOU,mlb,roof,-95.355411,29.757056,6,
+Wrigley Field,17,USIL0225,"Chicago, IL",Cubs,112,chn,C,104,CHC,mlb,open,-87.655810,41.947929,182,37
+Fenway Park,3,USMA0046,"Boston, MA",Red Sox,111,bos,E,103,BOS,mlb,open,-71.097765,42.346247,5,45
+Estadio de Beisbol Monterrey,2701,MXNL0068,"Monterrey, MX",,,,,,,,open,-100.315783,25.718348,532,142
+Turner Field,16,USGA0028,"Atlanta, GA",Braves,144,atl,E,104,ATL,mlb,open,-84.389766,33.735038,287,30
