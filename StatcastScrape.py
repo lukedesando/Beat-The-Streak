@@ -1,12 +1,12 @@
 ## imports
 from pandas.core.frame import DataFrame
 from BackgroundFunctions import CheckPosition, Get_BBRef_and_MLB_ID, Get_MLB_ID, Get_BBRefID_From_MLBID, Check_bat_or_pitch
-from baseball_scraper import statcast_batter, statcast_pitcher
+from pybaseball import statcast_batter, statcast_pitcher
 from datetime import date, timedelta
 from BackgroundFunctions import FiveDaysAgoString,TodayString, BeginningofYearString
 
 def statcast_player(
-    PlayerName=None,start_string=BeginningofYearString, end_string=TodayString, MLBID=None, position=None,Events=False
+    PlayerName=None,start_string=BeginningofYearString, end_string=TodayString, MLBID=None, position=None,Events=True
     ):
     "Works by specifying either player name or MLBID"
     StatcastDataframe = DataFrame()
@@ -23,7 +23,7 @@ def statcast_player(
     return StatcastDataframe
 
 def print_statcast_player(
-    PlayerName=None, start_string=FiveDaysAgoString, end_string=TodayString, MLBID=None, position=None, Events=False
+    PlayerName=None, start_string=FiveDaysAgoString, end_string=TodayString, MLBID=None, position=None, Events=True
     ):
     "Works by specifying either player name or MLBID"
     print(statcast_player(PlayerName,start_string, end_string, MLBID, position,Events))
