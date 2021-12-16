@@ -1,6 +1,6 @@
 import csv
 from pandas.core.frame import DataFrame
-from statsapi import player_stats,player_stat_data, lookup_player, roster,schedule
+from statsapi import player_stats,player_stat_data, lookup_player, roster, schedule
 import pandas as pd
 from datetime import date, datetime,timedelta
 from statsapi import get
@@ -207,7 +207,7 @@ def rosterPlayers(teamId, rosterType=None, season=datetime.now().year, date=None
 
 def GetMLBTeamID(TeamID):
     '''Totally universal in application; will search any and all team ID names across multiple files
-    \n if it isn't found, editing needs to be done to the Team Map'''
+    \n if it isn't found, editing needs to be done to the Team Map csv'''
     df = GetTeamKeyMap()
     df = df[df.isin([TeamID]).any(axis=1)]
     MLBTeamID = df['MLBTeamID'].to_string(index=False)
@@ -215,11 +215,18 @@ def GetMLBTeamID(TeamID):
 
 def GetBBRefTeamID(TeamID):
     '''Totally universal in application; will search any and all team ID names across multiple files
-    \n if it isn't found, editing needs to be done to the Team Map'''
+    \n if it isn't found, editing needs to be done to the Team Map csv'''
     df = GetTeamKeyMap()
     df = df[df.isin([TeamID]).any(axis=1)]
     BBRefID = df['BBREFTEAM'].to_string(index=False)
     return BBRefID
+
+def GetPyBaseballTeamID(TeamID):
+    '''If it isn't found, editing needs to be done to the Team Map csv'''
+    df = GetTeamKeyMap()
+    df = df[df.isin([TeamID]).any(axis=1)]
+    PyID = df['PYBASEBALL'].to_string(index=False)
+    return PyID
 
 def GetTeamKeyMap():
     '''I don't feel like remembering this file name
@@ -304,23 +311,25 @@ def UpdateChadwick():
 #Testing Fuctions
 if __name__ == '__main__':
     # UpdateChadwick() #FIXME need to put that as an init file
+    # print(schedule('2021-09-26',team='109'))
     
-    print(playerid_lookup('posey','buster'))
-    #print(playerid_reverse_lookup(457763))
-    print(Chadwick_Get_Name_Last_First(457763))
-    print(Chadwick_Get_Name_Last_First(592346))
+    print(GetPyBaseballTeamID(109))
+    # print(playerid_lookup('posey','buster'))
+    # #print(playerid_reverse_lookup(457763))
+    # print(Chadwick_Get_Name_Last_First(457763))
+    # print(Chadwick_Get_Name_Last_First(592346))
 
-    #Buster Posey
-    print(Get_Player_Name_Last_First(457763))
-    print(Get_Player_Name(457763))
+    # #Buster Posey
+    # print(Get_Player_Name_Last_First(457763))
+    # print(Get_Player_Name(457763))
 
-    #Chi Chi Gonzalez
-    print(Get_Player_Name_Last_First(592346))
-    print(Get_Player_Name(592346))
+    # #Chi Chi Gonzalez
+    # print(Get_Player_Name_Last_First(592346))
+    # print(Get_Player_Name(592346))
 
-    #Clayton Kershaw
-    print(Get_Player_Name_Last_First(477132))
-    print(Get_Player_Name(477132))
+    # #Clayton Kershaw
+    # print(Get_Player_Name_Last_First(477132))
+    # print(Get_Player_Name(477132))
 
     #print(Get_Player_Name(457763))
     #print(Get_Player_Name(445213))
