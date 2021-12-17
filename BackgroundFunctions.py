@@ -21,6 +21,7 @@ BeginningofYearString = '2021-01-01'
 Since2017String = '2017-01-01'
 Since2018String = '2018-01-01'
 Since2019String = '2019-01-01'
+Since2015String = '2015-01-01'
 
 
 def num_names(PlayerName):
@@ -228,11 +229,25 @@ def GetPyBaseballTeamID(TeamID):
     PyID = df['PYBASEBALL'].to_string(index=False)
     return PyID
 
+def GetFangraphsTeamID(TeamID):
+    'Returns proper grammar team name i.e. "Blue Jays"'
+    df = GetTeamKeyMap()
+    df = df[df.isin([TeamID]).any(axis=1)]
+    FanID = df['FANGRAPHSTEAM'].to_string(index=False)
+    return FanID
+
 def GetTeamKeyMap():
     '''I don't feel like remembering this file name
     \n Set it equal to a variable and you can use it in any team key lookup functions'''
     MLBTeamDataframe = pd.read_csv('MLB Team Map.csv')
     return MLBTeamDataframe
+
+def GetVenueID(HomeTeam):
+    '''Need full, correct grammar names i.e. "Blue Jays"'''
+    df = pd.read_csv('venues.csv')
+    df = df[df.isin([HomeTeam]).any(axis=1)]
+    VenueID = df['venue_id'].to_string(index=False)
+    return VenueID
 
 def get_lookup_table(LowerBoolean = False):
     # print('Gathering player lookup table. This may take a moment.')
@@ -312,7 +327,7 @@ def UpdateChadwick():
 if __name__ == '__main__':
     # UpdateChadwick() #FIXME need to put that as an init file
     # print(schedule('2021-09-26',team='109'))
-    
+    print(GetVenueID('Red Sox'))
     print(GetPyBaseballTeamID(109))
     # print(playerid_lookup('posey','buster'))
     # #print(playerid_reverse_lookup(457763))
