@@ -4,7 +4,7 @@ from BackgroundFunctions import Get_MLB_ID, GetTeamKeyMap, rosterPlayers
 from StatcastScrape import statcast_player
 from GenerateGamelogs import GenerateGamelog, GenerateGamelogs
 import pandas as pd
-from BackgroundFunctions import Since2017String, Since2018String, UpdateChadwick
+from BackgroundFunctions import Since2015String, Since2017String, Since2018String, UpdateChadwick
 
 # def GenerateDatabase(DatabaseFrame: DataFrame, AppendFrame: DataFrame):
 #     DatabaseFrame = DatabaseFrame.append(AppendFrame)
@@ -12,8 +12,8 @@ from BackgroundFunctions import Since2017String, Since2018String, UpdateChadwick
 if __name__ == '__main__':
     UpdateChadwick()
 
-dbyear = 2018
-SinceYearString = Since2018String
+dbyear = 2015
+SinceYearString = Since2015String
 
 PGamelogsDatabase = pd.DataFrame()
 PStatcastDatabase = pd.DataFrame()
@@ -33,7 +33,7 @@ AllTeams = GetTeamKeyMap()
 for ind,Team in AllTeams.iterrows():
     PlayerList = rosterPlayers(Team['MLBTeamID'])
     for Player in PlayerList:
-        print(Player)
+        # print(Player)
         try:
             if Player[2] == 'P':
                 PitcherStatcast = statcast_player(Player[0],MLBID=Player[1],position=Player[2],start_string=SinceYearString)
@@ -55,14 +55,16 @@ for ind,Team in AllTeams.iterrows():
 
         except Exception as e:
             print(e)
+            print(Player)
             TroublesomeNameDatabase = TroublesomeNameDatabase.append([str(e)])
+            TroublesomeNameDatabase = TroublesomeNameDatabase.append(Player)
             continue
     # print(EventsDatabase['player_name'])
-PGamelogsDatabase.to_csv("DatabasePitcherGamelogs.csv",index=False)
-PStatcastDatabase.to_csv("DatabasePitcherStatcast.csv",index=False)
-PEventsDatabase.to_csv("DatabasePitcherEvents.csv",index=False)
-BGamelogsDatabase.to_csv("DatabaseBatterGamelogs.csv",index=False)
-BStatcastDatabase.to_csv("DatabaseBatterStatcast.csv",index=False)
-BEventsDatabase.to_csv("DatabaseBatterEvents.csv",index=False)
+PGamelogsDatabase.to_csv("PitcherGamelogs.csv",index=False)
+PStatcastDatabase.to_csv("PitcherStatcast.csv",index=False)
+PEventsDatabase.to_csv("PitcherEvents.csv",index=False)
+BGamelogsDatabase.to_csv("BatterGamelogs.csv",index=False)
+BStatcastDatabase.to_csv("BatterStatcast.csv",index=False)
+BEventsDatabase.to_csv("BatterEvents.csv",index=False)
 TroublesomeNameDatabase.to_csv("DatabaseTroublesomeNames.csv",index=False)
 print('Finished')
