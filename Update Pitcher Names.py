@@ -26,7 +26,7 @@ try:
     emptynames = cur.fetchall()
     for PitcherID, PitcherName in emptynames:
         try:
-            # PitcherName = Get_Player_Name_Last_First(PitcherID) - faster, but incomplete for former players
+            # PitcherName = Get_Player_Name_Last_First(PitcherID) # - faster, but incomplete for former players
             PitcherName = Chadwick_Get_Name_Last_First(PitcherID)
             cur2.execute (update_pitcherName_query,(PitcherName, PitcherID))
             conn.commit()
