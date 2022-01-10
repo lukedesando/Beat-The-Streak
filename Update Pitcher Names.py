@@ -36,6 +36,21 @@ try:
         except (Error, Warning) as e:
             print(f"PitcherID: {PitcherID}, PitcherName: {PitcherName}")
             print("Didn't Work")
+    cur3 = conn.cursor()
+    cur4 = conn.cursor()
+    cur3.execute(select_pitcherID_query)
+    Oldemptynames = cur3.fetchall()
+    for PitcherID, PitcherName in Oldemptynames:
+        try:
+            # PitcherName = Get_Player_Name_Last_First(PitcherID) # - faster, but incomplete for former players
+            PitcherName = Chadwick_Get_Name_Last_First(PitcherID)
+            cur4.execute (update_pitcherName_query,(PitcherName, PitcherID))
+            conn.commit()
+            # cur2.execute (f'''UPDATE CombinedEvents SET pitcher_name = {PitcherName} WHERE pitcher = {PitcherID}''')
+            print(f"PitcherID: {PitcherID}, PitcherName: {PitcherName}")
+        except (Error, Warning) as e:
+            print(f"PitcherID: {PitcherID}, PitcherName: {PitcherName}")
+            print("Didn't Work")
 except Error as e:
     print(e)
     sys.exit(1)
