@@ -1,0 +1,37 @@
+from contextlib import nullcontext
+from mariadb import connect, Error, Warning
+import sys
+from getpass import getpass
+import mariadb
+from numpy import empty
+from BackgroundFunctions import GetWildCardTeamID
+from datetime import timedelta
+
+localhost = '192.168.1.152'
+CurrentDB = "GameLogs"
+CurrentTable = 'ParkFactors'
+# CurrentTable = 'ParkFactorsHandedness'
+# CurrentTable = 'ParkFactorsRolling'
+select_query = "SELECT team, abv FROM " + CurrentTable + " group by team"
+update_query = "UPDATE " + CurrentTable + " SET abv = ? WHERE team = ?"
+ColumnToSearch = 'FANPROSTEAM'
+
+try:
+    conn = mariadb.connect(
+        host='192.168.1.152',
+        user='LukeLukeLukeLuke',
+        # user=input("Enter username: "),
+        database = CurrentDB
+        # password=getpass("Enter password: "),
+    )
+    cur = conn.cursor()
+    cur2 = conn.cursor()
+    cur.execute(select_query)
+    emptynames = cur.fetchall()
+    for Team, abv in emptynames:
+        abbreviation = GetWildCardTeamID(Team, ColumnToSearch)
+        cur2.execute (update_query, (abbreviation, Team))
+        conn.commit()
+except Error as e:
+    print(e)
+    sys.exit(1)
