@@ -4,7 +4,6 @@ import sys
 from getpass import getpass
 import mariadb
 from numpy import empty
-#FIXME: Need to import from Beat-The-Streak repo
 from BackgroundFunctions import Get_MLB_ID
 
 localhost = '192.168.1.152'
