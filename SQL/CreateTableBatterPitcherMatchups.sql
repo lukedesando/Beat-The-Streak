@@ -1,4 +1,4 @@
--- drop table PitcherVsBatterMatchups;
+drop table PitcherVsBatterMatchups;
 
 
 Create TABLE PitcherVsBatterMatchups(
@@ -14,7 +14,8 @@ Create TABLE PitcherVsBatterMatchups(
     estimated_bacon DOUBLE,
     estimated_minus_actual_bacon DOUBLE,
     bacon double,
-    HR smallint
+    HR smallint,
+    BB smallint
 )
 select
     pitcher,
@@ -24,7 +25,8 @@ select
     count(batter) as PA,
     SUM(babip_value)+count(CASE events when 'home_run' then 1 else null end) as Hits,
     Count(CASE `description` when 'hit_into_play' then 1 else null end) as balls_in_play,
-    Count(CASE `events` when 'home_run' then 1 else null end) as HR
+    Count(CASE `events` when 'home_run' then 1 else null end) as HR,
+    Count(CASE `events` when 'walk' then 1 else null end) as BB
 from
     EventsBatter
 group by
@@ -54,7 +56,8 @@ CHANGE `batter_name` `batter_name` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb
 CHANGE `PA` `PA` tinyint NULL DEFAULT NULL COMMENT '' AFTER `batter_name`,
 CHANGE `AB` `AB` tinyint NULL DEFAULT NULL COMMENT '' AFTER `PA`,
 CHANGE `Hits` `Hits` tinyint NULL DEFAULT NULL COMMENT '' AFTER `AB`,
-CHANGE `HR` `HR` tinyint NULL DEFAULT NULL COMMENT '' AFTER `Hits`,
+CHANGE `BB` `BB` tinyint NULL DEFAULT NULL COMMENT '' AFTER `Hits`,
+CHANGE `HR` `HR` tinyint NULL DEFAULT NULL COMMENT '' AFTER `BB`,
 CHANGE `BA` `BA` double NULL DEFAULT NULL COMMENT '' AFTER `HR`,
 CHANGE `balls_in_play` `balls_in_play` tinyint NULL DEFAULT NULL COMMENT '' AFTER `BA`,
 CHANGE `bacon` `bacon` double NULL DEFAULT NULL COMMENT '' AFTER `balls_in_play`,
