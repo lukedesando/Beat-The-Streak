@@ -6,9 +6,9 @@ import mariadb
 from BackgroundFunctions import GetFangraphsTeamID, GetPyBaseballTeamID, GetVenueID
 
 localhost = '192.168.1.152'
-
-select_query = "SELECT home_team, game_year FROM DatabaseBatterEvents WHERE venue_id IS Null group by home_team"
-update_query = '''UPDATE DatabaseBatterEvents SET venue_id = ? WHERE home_team = ?'''
+CurrentTable = 'EventsBatter'
+select_query = "SELECT home_team, game_year FROM " + CurrentTable + " WHERE venue_id IS Null group by home_team"
+update_query = "UPDATE " + CurrentTable + " SET venue_id = ? WHERE home_team = ?"
 CurrentDB = "GameLogs"
 TeamMapCSV = 'MLB Team Map.csv'
 
