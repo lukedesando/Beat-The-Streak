@@ -206,6 +206,14 @@ def rosterPlayers(teamId, rosterType=None, season=datetime.now().year, date=None
 
     return players
 
+def GetWildCardTeamID(TeamID, ColumnToSearch):
+    '''I'm tired of making new functions for this purpose
+    \n Operates through Team Map csv'''
+    df=GetTeamKeyMap()
+    df = df[df.isin([TeamID]).any(axis=1)]
+    TeamID = df[ColumnToSearch].to_string(index=False)
+    return TeamID
+
 def GetMLBTeamID(TeamID):
     '''Totally universal in application; will search any and all team ID names across multiple files
     \n if it isn't found, editing needs to be done to the Team Map csv'''
