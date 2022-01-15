@@ -1,14 +1,3 @@
-alter table
-    ParkFactors
-add
-    column venue_id int
-after
-    `Team`;
-    
-update ParkFactors P
-left join `KEYS - venues` K 
-on P.Team = K.home_team_name
-set P.venue_id = K.venue_id;
 
 -- Other Teams Found in UpdateEventsVenue.py
 

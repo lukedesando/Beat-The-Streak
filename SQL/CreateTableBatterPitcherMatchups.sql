@@ -1,5 +1,4 @@
-drop table PitcherVsBatterMatchups;
-
+drop table if exists PitcherVsBatterMatchups;
 
 Create TABLE PitcherVsBatterMatchups(
     pitcher_name tinytext,

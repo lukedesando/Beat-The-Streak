@@ -1,23 +1,23 @@
 alter table
-    GameLogs.ParkFactors
+    ParkFactors
 add
     column venue_id int
 after
-    `Venue`;
-    
-update GameLogs.ParkFactors P
+    `Team`;
+
+update ParkFactors P
 left join `KEYS - venues` K 
 on P.Team = K.home_team_name
 set P.venue_id = K.venue_id;
 
 alter table
-    GameLogs.ParkFactorsHandedness
+    ParkFactorsHandedness
 add
     column venue_id int
 after
     `Venue`;
-    
-update GameLogs.ParkFactorsHandedness P
+
+update ParkFactorsHandedness P
 left join `KEYS - venues` K 
 on P.Team = K.home_team_name
 set P.venue_id = K.venue_id;
